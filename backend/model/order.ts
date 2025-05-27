@@ -1,12 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 
-const serviceOrderItem = new mongoose.Schema({
-  service: {
-    type: Schema.Types.ObjectId,
-    ref: "Company",
-  },
-});
-
 const orderSchema = new mongoose.Schema({
   clientName: {
     type: String,
@@ -30,9 +23,9 @@ const orderSchema = new mongoose.Schema({
     enum: ["Pending", "Canceled", "Approved"],
     default: "Pending",
   },
-  serviceOrderItem: [serviceOrderItem],
-  serviceInfo: {
-    type: String,
+  serviceOrder: {
+    type: Schema.Types.ObjectId,
+    ref: "Service",
   },
   orderCreatedAt: {
     type: Date,
