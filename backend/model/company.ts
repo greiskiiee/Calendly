@@ -1,21 +1,5 @@
 import mongoose from "mongoose";
-
-const service = new mongoose.Schema({
-  serviceName: {
-    type: String,
-    default: "",
-  },
-  servicePrice: {
-    type: Number,
-  },
-  serviceInfo: {
-    type: String,
-    default: "",
-  },
-  serviceTime: {
-    type: String,
-  },
-});
+import { ref } from "process";
 
 const socialmediaUrl = new mongoose.Schema({
   url: {
@@ -69,7 +53,6 @@ const companySchema = new mongoose.Schema({
     type: String,
   },
   socialUrls: [socialmediaUrl],
-  services: [service],
 });
 
 export const companyModel = mongoose.model("Company", companySchema);
