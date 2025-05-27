@@ -72,4 +72,4 @@ const companySchema = new mongoose.Schema({
   services: [service],
 });
 
-export const companyModel = mongoose.model("User", companySchema);
+export const companyModel = mongoose.model("Company", companySchema);
