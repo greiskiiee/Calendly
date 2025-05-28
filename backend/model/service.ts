@@ -1,24 +1,24 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose';
 
 const serviceSchema = new mongoose.Schema({
   companyId: {
     type: Schema.Types.ObjectId,
-    ref: "Company",
+    ref: 'Company',
   },
   serviceName: {
     type: String,
-    default: "",
+    default: '',
   },
   servicePrice: {
     type: Number,
   },
   serviceInfo: {
     type: String,
-    default: "",
+    default: '',
   },
   serviceTime: {
     type: Number,
   },
 });
 
-export const serviceModel = mongoose.model("Service", serviceSchema);
+export const serviceModel = mongoose.model('Service', serviceSchema);
