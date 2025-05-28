@@ -1,3 +1,4 @@
+
 import mongoose from 'mongoose';
 import { serviceModel } from '../model/service';
 import { Request, Response } from 'express';
@@ -14,6 +15,7 @@ export const createService = async (req: Request, res: Response) => {
       serviceTime: serviceTime,
     });
     return res.status(200).send({ success: true, company: service }).end();
+
   } catch (error) {
     console.log(error);
     return res.status(400).send({ success: false, message: error }).end();
@@ -87,3 +89,4 @@ export const deleteServiceByServiceId = async (req: Request, res: Response) => {
     return res.send(error);
   }
 };
+

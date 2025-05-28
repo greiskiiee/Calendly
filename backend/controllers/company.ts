@@ -13,7 +13,6 @@ export const createCompany = async (req: Request, res: Response) => {
     about,
     category,
     socialUrls,
-    services,
   } = req.body;
 
   const hashedPass = await bcrypt.hash(password, 10);
@@ -28,7 +27,7 @@ export const createCompany = async (req: Request, res: Response) => {
       about,
       category,
       socialUrls,
-      services,
+      services: [], // Initialize empty services array
     });
     return res.status(200).send({ success: true, company: company }).end();
   } catch (error) {
@@ -49,7 +48,6 @@ export const updateCompanyById = async (req: Request, res: Response) => {
     about,
     category,
     socialUrls,
-    services,
   } = req.body;
   try {
     let updateData: any = {
@@ -61,17 +59,16 @@ export const updateCompanyById = async (req: Request, res: Response) => {
       about,
       category,
       socialUrls,
-      services,
     };
     if (password) {
       const hashedPass = await bcrypt.hash(password, 10);
       updateData.password = hashedPass;
     }
     const response = await companyModel.findByIdAndUpdate(
-        id ,
+      id,
       updateData,
       { new: true }
-    );
+    ).populate('services'); // Populate services when fetching company
     return res.status(200).send({ success: true, message: response });
   } catch (error) {
     console.log(error);
@@ -82,10 +79,7 @@ export const updateCompanyById = async (req: Request, res: Response) => {
 export const deleteCompanyById = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    const response = await companyModel.deleteOne(
-    
-{ _id: id },
-    );
+    const response = await companyModel.deleteOne({ _id: id });
     return res.status(200).send({
       success: true,
       message: "Company deleted",
