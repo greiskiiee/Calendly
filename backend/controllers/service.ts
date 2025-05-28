@@ -1,7 +1,6 @@
-
-import mongoose from 'mongoose';
-import { serviceModel } from '../model/service';
-import { Request, Response } from 'express';
+import mongoose from "mongoose";
+import { serviceModel } from "../model/service";
+import { Request, Response } from "express";
 
 export const createService = async (req: Request, res: Response) => {
   const { companyId, serviceName, serviceInfo, servicePrice, serviceTime } =
@@ -15,7 +14,6 @@ export const createService = async (req: Request, res: Response) => {
       serviceTime: serviceTime,
     });
     return res.status(200).send({ success: true, company: service }).end();
-
   } catch (error) {
     console.log(error);
     return res.status(400).send({ success: false, message: error }).end();
@@ -25,17 +23,18 @@ export const createService = async (req: Request, res: Response) => {
 export const getServicesByCompanyId = async (req: Request, res: Response) => {
   const { companyId } = req.params;
   try {
-    const servicesByCompanyId = await serviceModel.find({
-      companyId: companyId,
-    });
-    // .populate('companyId');
+    const servicesByCompanyId = await serviceModel
+      .find({
+        companyId: companyId,
+      })
+      .populate("companyId");
 
     return res
       .status(200)
       .send({ success: true, servicesByCompanyId: servicesByCompanyId })
       .end();
   } catch (error) {
-    console.error(error, 'error');
+    console.error(error, "error");
     return res
       .status(400)
       .send({
@@ -82,11 +81,10 @@ export const deleteServiceByServiceId = async (req: Request, res: Response) => {
     });
     return res.send({
       success: true,
-      message: 'Service deleted',
+      message: "Service deleted",
       data: response,
     });
   } catch (error) {
     return res.send(error);
   }
 };
-
