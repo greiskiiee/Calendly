@@ -1,15 +1,19 @@
-import express from "express";
+
+import express from 'express';
 import {
   createService,
+  deleteServiceByServiceId,
   getServicesByCompanyId,
-  updateServiceById,
-  deleteServiceById,
-} from "../controllers/service";
+  updateService,
+} from '../controllers/service';
+import { updateCompanyById } from '../controllers/company';
+// import {} from "../controllers/company";
 
 export const serviceRouter = express.Router();
 
 serviceRouter
-  .post("/", createService as any)
-  .get("/company/:companyId", getServicesByCompanyId as any)
-  .put("/:id", updateServiceById as any)
-  .delete("/:id", deleteServiceById as any);
+  .post('/', createService as any)
+  .put('/:serviceId', updateService as any)
+  .get('/:companyId', getServicesByCompanyId as any)
+  .delete('/:serviceId', deleteServiceByServiceId as any);
+

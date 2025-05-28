@@ -1,17 +1,21 @@
-import { Request, Response } from "express";
-import { serviceModel } from "../model/service";
+
+import mongoose from 'mongoose';
+import { serviceModel } from '../model/service';
+import { Request, Response } from 'express';
 
 export const createService = async (req: Request, res: Response) => {
-  const { companyId, serviceName, servicePrice, serviceInfo, serviceTime } = req.body;
+  const { companyId, serviceName, serviceInfo, servicePrice, serviceTime } =
+    req.body;
   try {
     const service = await serviceModel.create({
-      companyId,
-      serviceName,
-      servicePrice,
-      serviceInfo,
-      serviceTime,
+      companyId: companyId,
+      serviceName: serviceName,
+      serviceInfo: serviceInfo,
+      servicePrice: servicePrice,
+      serviceTime: serviceTime,
     });
-    return res.status(200).send({ success: true, service }).end();
+    return res.status(200).send({ success: true, company: service }).end();
+
   } catch (error) {
     console.log(error);
     return res.status(400).send({ success: false, message: error }).end();
@@ -21,42 +25,68 @@ export const createService = async (req: Request, res: Response) => {
 export const getServicesByCompanyId = async (req: Request, res: Response) => {
   const { companyId } = req.params;
   try {
-    const services = await serviceModel.find({ companyId });
-    return res.status(200).send({ success: true, services }).end();
+    const servicesByCompanyId = await serviceModel.find({
+      companyId: companyId,
+    });
+    // .populate('companyId');
+
+    return res
+      .status(200)
+      .send({ success: true, servicesByCompanyId: servicesByCompanyId })
+      .end();
   } catch (error) {
-    console.log(error);
-    return res.status(400).send({ success: false, message: error }).end();
+    console.error(error, 'error');
+    return res
+      .status(400)
+      .send({
+        success: false,
+        message: error,
+      })
+      .end();
   }
 };
 
-export const updateServiceById = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { serviceName, servicePrice, serviceInfo, serviceTime } = req.body;
+export const updateService = async (req: Request, res: Response) => {
+  const { serviceId } = req.params;
+  const { companyId, serviceName, serviceInfo, servicePrice, serviceTime } =
+    req.body;
   try {
-    const service = await serviceModel.findByIdAndUpdate(
-      id,
-      {
-        serviceName,
-        servicePrice,
-        serviceInfo,
-        serviceTime,
-      },
-      { new: true }
-    );
-    return res.status(200).send({ success: true, service }).end();
+    // const serviceUpdate = await serviceModel.updateOne({
+    //   where: { id: Number(id) },
+    //   data: {
+    //     companyId,
+    //     serviceName,
+    //     serviceInfo,
+    //     servicePrice,
+    //     serviceTime,
+    //   },
+    // });
+    const serviceUpdate = await serviceModel.findByIdAndUpdate(serviceId, {
+      companyId,
+      serviceName,
+      serviceInfo,
+      servicePrice,
+      serviceTime,
+    });
+    return res.send({ success: true, message: serviceUpdate });
   } catch (error) {
-    console.log(error);
-    return res.status(400).send({ success: false, message: error }).end();
+    return res.send(error);
   }
 };
 
-export const deleteServiceById = async (req: Request, res: Response) => {
-  const { id } = req.params;
+export const deleteServiceByServiceId = async (req: Request, res: Response) => {
+  const { serviceId } = req.params;
   try {
-    await serviceModel.findByIdAndDelete(id);
-    return res.status(200).send({ success: true, message: "Service deleted successfully" }).end();
+    const response = await serviceModel.deleteOne({
+      _id: new mongoose.Types.ObjectId(serviceId),
+    });
+    return res.send({
+      success: true,
+      message: 'Service deleted',
+      data: response,
+    });
   } catch (error) {
-    console.log(error);
-    return res.status(400).send({ success: false, message: error }).end();
+    return res.send(error);
   }
-}; 
+};
+
