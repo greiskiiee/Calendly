@@ -1,6 +1,20 @@
 import Image from "next/image";
 import { ServiceCartComponent } from "../../components/ServiceCard";
+import { MainAreaComponent } from "../../components/MainArea";
 
 export default function Home() {
-  return <div>Main page</div>;
+  return (
+    <div className="flex flex-col gap-8">
+      <MainAreaComponent />
+      <div className="text-3xl font-bold text-center text-gray-800 mb-12">
+        Танд тохирсон салоноо сонгоорой
+      </div>
+      <div className="flex flex-wrap gap-8">
+        <ServiceCartComponent />
+        <ServiceCartComponent />
+        <ServiceCartComponent />
+        <ServiceCartComponent />
+      </div>
+    </div>
+  );
 }
