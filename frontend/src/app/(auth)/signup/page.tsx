@@ -1,4 +1,4 @@
-import SalonSignUp from "../../../../components/SalonSignup";
+import SalonSignUp from "../../../components/SalonSignup";
 
 export default function Signup() {
   return (
