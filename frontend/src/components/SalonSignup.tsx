@@ -295,7 +295,6 @@ const SalonSignUp = () => {
                             {...field}
                           />
                         </FormControl>
-
                         <FormMessage />
                       </FormItem>
                     )}
