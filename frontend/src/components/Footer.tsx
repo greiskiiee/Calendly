@@ -14,8 +14,8 @@ export const Footer = () => {
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="lucide lucide-clock w-4 h-4 text-white"
             >
               <circle cx="12" cy="12" r="10"></circle>
