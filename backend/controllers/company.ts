@@ -90,22 +90,23 @@ export const deleteCompanyById = async (req: Request, res: Response) => {
   }
 };
 
-// // buh company medeele avch chadahgui error zaagaad bn
-// export const getCompanies = async (_: Request, res: Response) => {
-//   try {
-//     const companies = await companyModel.find({}).select('-password');
-//     return res.status(200).send({ success: true, companies: companies }).end();
-//   } catch (error) {
-//     console.error(error, 'error');
-//     return res
-//       .status(400)
-//       .send({
-//         success: false,
-//         message: error,
-//       })
-//       .end();
-//   }
-// };
+// buh company medeele avch chadahgui error zaagaad bn
+export const getCompanies = async (_: Request, res: Response) => {
+  console.log('check2');
+  try {
+    const companies = await companyModel.find().select('-password');
+    return res.status(200).send({ success: true, companies: companies }).end();
+  } catch (error) {
+    console.error(error, 'error');
+    return res
+      .status(400)
+      .send({
+        success: false,
+        message: error,
+      })
+      .end();
+  }
+};
 
 export const getCompanyById = async (req: Request, res: Response) => {
   const { companyId } = req.params;
