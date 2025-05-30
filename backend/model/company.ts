@@ -1,14 +1,35 @@
-import mongoose from "mongoose";
-import { ref } from "process";
+import mongoose from 'mongoose';
+import { ref } from 'process';
+import { scheduler } from 'timers/promises';
+
+const timeTable = new mongoose.Schema({
+  day: {
+    type: String,
+    enum: ['Даваа', 'Мягмар', 'Лхагва', 'Пүрэв', 'Баасан', 'Бямба', 'Ням'],
+    required: true,
+  },
+  openingTime: {
+    type: String,
+    required: true,
+  },
+  closingTime: {
+    type: String,
+    required: true,
+  },
+  isClosed: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 const socialmediaUrl = new mongoose.Schema({
   url: {
     type: String,
-    default: "",
+    default: '',
   },
   urlName: {
     type: String,
-    default: "",
+    default: '',
   },
 });
 
@@ -16,43 +37,47 @@ const companySchema = new mongoose.Schema({
   companyName: {
     type: String,
     required: true,
-    default: "",
+    default: '',
   },
   logo: {
     type: String,
-    default: "",
+    default: '',
   },
   email: {
     type: String,
     required: true,
-    default: "",
+    default: '',
   },
   phoneNumber: {
     type: String,
     required: true,
     minLength: 8,
     maxLength: 8,
-    default: "",
+    default: '',
   },
   address: {
     type: String,
     required: true,
-    default: "",
+    default: '',
   },
   password: {
     type: String,
     required: true,
     minLength: 8,
-    default: "",
+    default: '',
   },
   about: {
     type: String,
-    default: "",
+    default: '',
   },
   category: {
     type: String,
   },
+  schedule: {
+    type: [timeTable],
+    required: true,
+  },
   socialUrls: [socialmediaUrl],
 });
 
-export const companyModel = mongoose.model("Company", companySchema);
+export const companyModel = mongoose.model('Company', companySchema);
