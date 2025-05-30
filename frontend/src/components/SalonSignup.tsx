@@ -1,20 +1,20 @@
-"use client";
-import React, { useState } from "react";
+'use client';
+import React, { useState } from 'react';
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -22,13 +22,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { z } from "zod";
-import SocialUrlInput from "./SocialUrlInput";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Textarea } from "./ui/textarea";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { z } from 'zod';
+import SocialUrlInput from './SocialUrlInput';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Textarea } from './ui/textarea';
 
 interface SocialUrl {
   url: string;
@@ -55,56 +55,56 @@ const socialUrlSchema = z.object({
 
 const formSchema = z
   .object({
-    companyName: z.string().min(2, { message: "Нэрээ бүтэн бичнэ үү" }),
+    companyName: z.string().min(2, { message: 'Нэрээ бүтэн бичнэ үү' }),
     logo: z
       .any()
       .refine((file) => file instanceof File || (file && file.length > 0), {
-        message: "Лого зургаа оруулна уу",
+        message: 'Лого зургаа оруулна уу',
       }),
-    email: z.string().min(2, { message: "Зөв имэйл оруулна уу" }),
-    phoneNumber: z.string().min(8, { message: "Зөв утасны дугаар оруулна уу" }),
-    address: z.string().min(10, { message: "Хаягаа бүтэн оруулна уу" }),
+    email: z.string().min(2, { message: 'Зөв имэйл оруулна уу' }),
+    phoneNumber: z.string().min(8, { message: 'Зөв утасны дугаар оруулна уу' }),
+    address: z.string().min(10, { message: 'Хаягаа бүтэн оруулна уу' }),
     password: z
       .string()
-      .min(8, { message: "Нууц үг 8-аас их тэмдэгттэй байх ёстой" }),
+      .min(8, { message: 'Нууц үг 8-аас их тэмдэгттэй байх ёстой' }),
     confirmPassword: z
       .string()
-      .min(8, { message: "Нууц үг 8-аас их тэмдэгттэй байх ёстой" }),
+      .min(8, { message: 'Нууц үг 8-аас их тэмдэгттэй байх ёстой' }),
     about: z.string(),
-    category: z.string().min(2, { message: "Төрлөө сонгоно уу" }),
+    category: z.string().min(2, { message: 'Төрлөө сонгоно уу' }),
     socialUrls: z.array(socialUrlSchema),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"],
-    message: "Нууц үг буруу байна.",
+    path: ['confirmPassword'],
+    message: 'Нууц үг буруу байна.',
   });
 
 const SalonSignUp = () => {
   const [formData, setFormData] = useState<FormData>({
-    companyName: "",
-    logo: "",
-    email: "",
-    phoneNumber: "",
-    address: "",
-    password: "",
-    confirmPassword: "",
-    about: "",
-    category: "",
+    companyName: '',
+    logo: '',
+    email: '',
+    phoneNumber: '',
+    address: '',
+    password: '',
+    confirmPassword: '',
+    about: '',
+    category: '',
     socialUrls: [],
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      companyName: "",
+      companyName: '',
       logo: undefined,
-      email: "",
-      phoneNumber: "",
-      address: "",
-      password: "",
-      confirmPassword: "",
-      about: "",
-      category: "",
+      email: '',
+      phoneNumber: '',
+      address: '',
+      password: '',
+      confirmPassword: '',
+      about: '',
+      category: '',
       socialUrls: [],
     },
   });
@@ -113,17 +113,17 @@ const SalonSignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const categories = [
-    "Үсчин",
-    "Гоо сайхан",
-    "Спа",
-    "Эмчилгээний спа",
-    "Нүүр будалт",
+    'Үсчин',
+    'Гоо сайхан',
+    'Спа',
+    'Эмчилгээний спа',
+    'Нүүр будалт',
   ];
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: "" }));
+      setErrors((prev) => ({ ...prev, [field]: '' }));
     }
   };
 
@@ -137,7 +137,7 @@ const SalonSignUp = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result as string;
-        handleInputChange("logo", result);
+        handleInputChange('logo', result);
       };
       reader.readAsDataURL(file);
     }
@@ -152,7 +152,7 @@ const SalonSignUp = () => {
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
-            Join Our Beauty Network
+            Бидэнтэй нэгдээрэй ТВ8
           </h1>
           <p className="text-gray-600 text-lg">
             Register your salon and connect with customers in Mongolia
@@ -162,10 +162,10 @@ const SalonSignUp = () => {
         <Card className="shadow-xl border-0 backdrop-blur-sm bg-white/90">
           <CardHeader className="text-center pb-6">
             <CardTitle className="text-2xl text-gray-800">
-              Salon Registration
+              Байгууллагын бүртгэл
             </CardTitle>
             <CardDescription className="text-gray-600">
-              Fill in your salon details to get started
+              Бүртгүүлэхийн тулд доорхийг бөглөнө үү
             </CardDescription>
           </CardHeader>
 
@@ -302,7 +302,7 @@ const SalonSignUp = () => {
                 </div>
 
                 <div className="w-1/2">
-                  {" "}
+                  {' '}
                   <FormField
                     control={form.control}
                     name="confirmPassword"
@@ -334,7 +334,7 @@ const SalonSignUp = () => {
                         id="about"
                         value={formData.about}
                         onChange={(e) =>
-                          handleInputChange("about", e.target.value)
+                          handleInputChange('about', e.target.value)
                         }
                         placeholder="Танай байгууллагын онцлог зүйлсийг дурдана уу."
                         className="min-h-[100px] resize-none focus:border-purple-500 transition-all duration-200"
