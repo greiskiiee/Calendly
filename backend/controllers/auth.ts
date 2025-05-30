@@ -1,9 +1,8 @@
-import { configDotenv } from 'dotenv';
-import bcrypt from 'bcrypt';
-import { companyModel } from '../model/company';
-import { Request, Response } from 'express';
-import mongoose from 'mongoose';
-import jwt from 'jsonwebtoken';
+import { configDotenv } from "dotenv";
+import bcrypt from "bcrypt";
+import { companyModel } from "../model/company";
+import { Request, Response } from "express";
+import jwt from "jsonwebtoken";
 
 configDotenv();
 const secret_key = process.env.SECRET_KEY as string;
@@ -15,14 +14,14 @@ export const loginCompany = async (req: Request, res: Response) => {
     console.log(company);
     if (company) {
       const isMatch = await bcrypt.compare(password, company.password);
-      console.log(isMatch, 'isMatch');
+      console.log(isMatch, "isMatch");
       if (!isMatch) {
         return res
           .status(404)
-          .send({ success: false, message: 'company pass or email incorrect' });
+          .send({ success: false, message: "company pass or email incorrect" });
       }
 
-      console.log(company, 'company');
+      console.log(company, "company");
       const token = jwt.sign({ ...company }, secret_key, {
         expiresIn: 3600 * 24,
       });
@@ -31,7 +30,7 @@ export const loginCompany = async (req: Request, res: Response) => {
     } else {
       return res
         .status(404)
-        .send({ success: false, message: 'company not found' });
+        .send({ success: false, message: "company not found" });
     }
   } catch (error) {
     // console.error(error, 'error');
