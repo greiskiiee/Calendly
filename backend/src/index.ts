@@ -1,4 +1,3 @@
-
 import express, { json } from 'express';
 import cors from 'cors';
 import { Request, Response } from 'express';
@@ -6,6 +5,7 @@ import { companyRouter } from '../router/company';
 import { orderRouter } from '../router/order';
 import { connectMongoDB } from './connectDb';
 import { serviceRouter } from '../router/service';
+import { authRouter } from '../router/auth';
 
 const app = express();
 
@@ -18,7 +18,7 @@ console.log('yes');
 app.use('/company', companyRouter);
 app.use('/order', orderRouter);
 app.use('/service', serviceRouter);
-
+app.use('/auth', authRouter);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('hello');
