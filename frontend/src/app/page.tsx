@@ -1,8 +1,10 @@
+
 import Image from "next/image";
 import { ServiceCartComponent } from "../components/ServiceCard";
 
 import { MainAreaComponent } from "../components/MainArea";
 import { HeaderComponent } from "../components/Header";
+
 
 export default function Home() {
   return (
