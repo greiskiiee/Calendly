@@ -155,14 +155,14 @@
 
 // export default SalonLogin;
 
-'use client';
+"use client";
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -170,20 +170,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
-  email: z.string().email({ message: 'Зөв имэйл хаяг оруулна уу' }),
+  email: z.string().email({ message: "Зөв имэйл хаяг оруулна уу" }),
   password: z
     .string()
-    .min(8, { message: 'Нууц үг 8-аас их тэмдэгттэй байх ёстой' }),
+    .min(8, { message: "Нууц үг 8-аас их тэмдэгттэй байх ёстой" }),
 });
 
 const SalonLogin = () => {
@@ -193,8 +193,8 @@ const SalonLogin = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
 
@@ -206,16 +206,16 @@ const SalonLogin = () => {
         values
       );
 
-      localStorage.setItem('token', response.data.token);
-      console.log('boljiin goy bn');
+      localStorage.setItem("token", response.data.token);
+      console.log("boljiin goy bn");
 
       // router.push('/dashboard'); // Redirect after login÷
     } catch (error) {
-      console.log('huts');
+      console.log("huts");
 
-      console.error('Login error:', error);
-      form.setError('root', {
-        message: 'Нэвтрэхэд алдаа гарлаа. Имэйл эсвэл нууц үгээ шалгана уу.',
+      console.error("Login error:", error);
+      form.setError("root", {
+        message: "Нэвтрэхэд алдаа гарлаа. Имэйл эсвэл нууц үгээ шалгана уу.",
       });
     } finally {
       setIsLoading(false);
@@ -227,11 +227,9 @@ const SalonLogin = () => {
       <div className="max-w-xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
-            Join Our Beauty Network
+            Буцаад тавтай морил
           </h1>
-          <p className="text-gray-600 text-lg">
-            Register your salon and connect with customers in Mongolia
-          </p>
+          <p className="text-gray-600 text-lg"></p>
         </div>
 
         <Card className="shadow-xl border-0 backdrop-blur-sm bg-white/90">
@@ -294,7 +292,7 @@ const SalonLogin = () => {
                 type="submit"
                 disabled={isLoading}
               >
-                {isLoading ? 'Нэвтэрч байна...' : 'Нэвтрэх'}
+                {isLoading ? "Нэвтэрч байна..." : "Нэвтрэх"}
               </Button>
             </form>
           </Form>
