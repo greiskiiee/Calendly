@@ -1,20 +1,22 @@
-import mongoose from 'mongoose';
-import { ref } from 'process';
-import { scheduler } from 'timers/promises';
+import mongoose from "mongoose";
+import { ref } from "process";
+import { scheduler } from "timers/promises";
 
-const timeTable = new mongoose.Schema({
+const TimeTableSchema = new mongoose.Schema({
   day: {
     type: String,
-    enum: ['Даваа', 'Мягмар', 'Лхагва', 'Пүрэв', 'Баасан', 'Бямба', 'Ням'],
+    enum: ["Даваа", "Мягмар", "Лхагва", "Пүрэв", "Баасан", "Бямба", "Ням"],
     required: true,
   },
   openingTime: {
     type: String,
     required: true,
+    match: [/^\d{2}:\d{2}$/, "Must be in HH:mm format"],
   },
   closingTime: {
     type: String,
     required: true,
+    match: [/^\d{2}:\d{2}$/, "Must be in HH:mm format"],
   },
   isClosed: {
     type: Boolean,
@@ -25,11 +27,11 @@ const timeTable = new mongoose.Schema({
 const socialmediaUrl = new mongoose.Schema({
   url: {
     type: String,
-    default: '',
+    default: "",
   },
   urlName: {
     type: String,
-    default: '',
+    default: "",
   },
 });
 
@@ -37,47 +39,42 @@ const companySchema = new mongoose.Schema({
   companyName: {
     type: String,
     required: true,
-    default: '',
   },
   logo: {
     type: String,
-    default: '',
+    default: "",
   },
   email: {
     type: String,
     required: true,
-    default: '',
+    unique: true,
   },
   phoneNumber: {
     type: String,
     required: true,
-    minLength: 8,
-    maxLength: 8,
-    default: '',
+    match: [/^\d{8}$/, "Phone number must be 8 digits"],
   },
   address: {
     type: String,
     required: true,
-    default: '',
   },
   password: {
     type: String,
     required: true,
     minLength: 8,
-    default: '',
   },
   about: {
     type: String,
-    default: '',
+    default: "",
   },
   category: {
     type: String,
   },
   schedule: {
-    type: [timeTable],
+    type: [TimeTableSchema],
     required: true,
   },
   socialUrls: [socialmediaUrl],
 });
 
-export const companyModel = mongoose.model('Company', companySchema);
+export const companyModel = mongoose.model("Company", companySchema);
