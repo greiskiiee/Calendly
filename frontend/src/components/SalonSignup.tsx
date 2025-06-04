@@ -1,20 +1,21 @@
-'use client';
-import React, { useState } from 'react';
+"use client";
+
+import React, { useState } from "react";
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -22,13 +23,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { z } from 'zod';
-import SocialUrlInput from './SocialUrlInput';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Textarea } from './ui/textarea';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { z } from "zod";
+import SocialUrlInput from "./SocialUrlInput";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Textarea } from "./ui/textarea";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { Eye, EyeOff } from "lucide-react";
+import { Toggle } from "./ui/toggle";
 
 interface SocialUrl {
   url: string;
@@ -42,11 +47,13 @@ interface FormData {
   phoneNumber: string;
   address: string;
   password: string;
-  confirmPassword: string;
   about: string;
   category: string;
+  schedule: object;
   socialUrls: SocialUrl[];
 }
+
+const week = ["Даваа", "Мягмар", "Лхагва", "Пүрэв", "Баасан", "Бямба", "Ням"];
 
 const socialUrlSchema = z.object({
   url: z.string().url(),
@@ -55,75 +62,89 @@ const socialUrlSchema = z.object({
 
 const formSchema = z
   .object({
-    companyName: z.string().min(2, { message: 'Нэрээ бүтэн бичнэ үү' }),
+    companyName: z.string().min(2, { message: "Нэрээ бүтэн бичнэ үү" }),
     logo: z
       .any()
-      .refine((file) => file instanceof File || (file && file.length > 0), {
-        message: 'Лого зургаа оруулна уу',
-      }),
-    email: z.string().min(2, { message: 'Зөв имэйл оруулна уу' }),
-    phoneNumber: z.string().min(8, { message: 'Зөв утасны дугаар оруулна уу' }),
-    address: z.string().min(10, { message: 'Хаягаа бүтэн оруулна уу' }),
+      .refine(
+        (file) =>
+          ["image/jpeg", "image/jpg", "image/png", "image/webp"].includes(
+            file?.type
+          ),
+        "Only .jpg, .jpeg, .png and .webp formats are supported."
+      ),
+    email: z.string().min(2, { message: "Зөв имэйл оруулна уу" }),
+    phoneNumber: z.string().min(8, { message: "Зөв утасны дугаар оруулна уу" }),
+    address: z.string().min(10, { message: "Хаягаа бүтэн оруулна уу" }),
     password: z
       .string()
-      .min(8, { message: 'Нууц үг 8-аас их тэмдэгттэй байх ёстой' }),
+      .min(8, { message: "Нууц үг 8-аас их тэмдэгттэй байх ёстой" }),
     confirmPassword: z
       .string()
-      .min(8, { message: 'Нууц үг 8-аас их тэмдэгттэй байх ёстой' }),
+      .min(8, { message: "Нууц үг 8-аас их тэмдэгттэй байх ёстой" }),
     about: z.string(),
-    category: z.string().min(2, { message: 'Төрлөө сонгоно уу' }),
+    category: z.string().min(2, { message: "Төрлөө сонгоно уу" }),
     socialUrls: z.array(socialUrlSchema),
+    workdays: z.array(z.string()).min(1, "Ядаж нэг ажлын өдөр сонгоно уу"),
+    open: z.string(),
+    close: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    path: ['confirmPassword'],
-    message: 'Нууц үг буруу байна.',
+    path: ["confirmPassword"],
+    message: "Нууц үг буруу байна.",
   });
 
 const SalonSignUp = () => {
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<FormData>({
-    companyName: '',
-    logo: '',
-    email: '',
-    phoneNumber: '',
-    address: '',
-    password: '',
-    confirmPassword: '',
-    about: '',
-    category: '',
+    companyName: "",
+    logo: "",
+    email: "",
+    phoneNumber: "",
+    address: "",
+    password: "",
+    about: "",
+    category: "",
     socialUrls: [],
+    schedule: {},
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      companyName: '',
-      logo: undefined,
-      email: '',
-      phoneNumber: '',
-      address: '',
-      password: '',
-      confirmPassword: '',
-      about: '',
-      category: '',
+      companyName: "",
+      logo: "",
+      email: "",
+      phoneNumber: "",
+      address: "",
+      password: "",
+      confirmPassword: "",
+      about: "",
+      category: "",
       socialUrls: [],
+      workdays: [],
+      open: "",
+      close: "",
     },
   });
+
+  const [workdays, setWorkdays] = useState<String[]>([]);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
 
   const categories = [
-    'Үсчин',
-    'Гоо сайхан',
-    'Спа',
-    'Эмчилгээний спа',
-    'Нүүр будалт',
+    "Үсчин",
+    "Гоо сайхан",
+    "Спа",
+    "Эмчилгээний спа",
+    "Нүүр будалт",
   ];
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: '' }));
+      setErrors((prev) => ({ ...prev, [field]: "" }));
     }
   };
 
@@ -137,14 +158,44 @@ const SalonSignUp = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result as string;
-        handleInputChange('logo', result);
+        handleInputChange("logo", result);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const handleWorkdays = (day: string) => {
+    setWorkdays((prev) =>
+      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
+    );
+  };
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const data: FormData = {
+        companyName: values.companyName,
+        logo: values.logo.name,
+        email: values.email,
+        phoneNumber: values.phoneNumber,
+        address: values.address,
+        password: values.password,
+        about: values.about,
+        category: values.category,
+        socialUrls: values.socialUrls,
+        schedule: {
+          day: `${values.workdays}`,
+          openingTime: values.open,
+          closingTime: values.close,
+          isClosed: false,
+        },
+      };
+
+      console.log("Submitted values:", data);
+      await axios.post(`http://localhost:8000/auth/signupCompany `, data);
+      router.push("/login");
+    } catch (error) {
+      console.error("Submission error:", error);
+    }
   };
 
   return (
@@ -155,19 +206,21 @@ const SalonSignUp = () => {
             Бидэнтэй нэгдээрэй ТВ8
           </h1>
           <p className="text-gray-600 text-lg">
-            Register your salon and connect with customers in Mongolia
+            Бүртгүүлээд хэрэглэгчидтэй илүү хурдан холбогдоорой.
           </p>
         </div>
 
-        <Card className="shadow-xl border-0 backdrop-blur-sm bg-white/90">
-          <CardHeader className="text-center pb-6">
-            <CardTitle className="text-2xl text-gray-800">
-              Байгууллагын бүртгэл
-            </CardTitle>
-            <CardDescription className="text-gray-600">
-              Бүртгүүлэхийн тулд доорхийг бөглөнө үү
-            </CardDescription>
-          </CardHeader>
+        <div className="shadow-xl border-0 backdrop-blur-sm bg-white/90 py-5 rounded-xl">
+          <div>
+            <div className="text-center pb-6">
+              <div className="text-2xl text-gray-800 font-[600] ">
+                Байгууллагын бүртгэл
+              </div>
+              <div className="text-gray-600">
+                Бүртгүүлэхийн тулд доорхийг бөглөнө үү
+              </div>
+            </div>
+          </div>
 
           <Form {...form}>
             <form
@@ -192,17 +245,17 @@ const SalonSignUp = () => {
               <FormField
                 control={form.control}
                 name="logo"
-                render={({ field: { onChange, ...rest } }) => (
+                render={({ field: { value, onChange, ...fieldProps } }) => (
                   <FormItem>
                     <FormLabel>Байгууллагын лого</FormLabel>
                     <FormControl>
                       <Input
                         type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          onChange(file);
-                        }}
+                        {...fieldProps}
+                        accept="image/png, image/jpeg, image/jpg"
+                        onChange={(event) =>
+                          onChange(event.target.files && event.target.files[0])
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -290,10 +343,25 @@ const SalonSignUp = () => {
                       <FormItem>
                         <FormLabel>Нууц үг</FormLabel>
                         <FormControl>
-                          <Input
-                            placeholder="Энд нууц үг оруулна уу"
-                            {...field}
-                          />
+                          <div className="relative">
+                            <Input
+                              {...field}
+                              type={showPassword ? "text" : "password"}
+                              className="w-full py-1 px-4 pr-10 rounded-md bg-white"
+                              placeholder="Энд нууц үг оруулна уу"
+                            />
+                            <button
+                              type="button"
+                              className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600"
+                              onClick={() => setShowPassword(!showPassword)}
+                            >
+                              {showPassword ? (
+                                <EyeOff size={18} />
+                              ) : (
+                                <Eye size={18} />
+                              )}
+                            </button>
+                          </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -302,7 +370,7 @@ const SalonSignUp = () => {
                 </div>
 
                 <div className="w-1/2">
-                  {' '}
+                  {" "}
                   <FormField
                     control={form.control}
                     name="confirmPassword"
@@ -310,10 +378,25 @@ const SalonSignUp = () => {
                       <FormItem>
                         <FormLabel>Нууц үг давтах</FormLabel>
                         <FormControl>
-                          <Input
-                            placeholder="Энд нууц үг оруулна уу"
-                            {...field}
-                          />
+                          <div className="relative">
+                            <Input
+                              {...field}
+                              type={showPassword ? "text" : "password"}
+                              className="w-full py-1 px-4 pr-10 rounded-md bg-white"
+                              placeholder="Энд нууц үг оруулна уу"
+                            />
+                            <button
+                              type="button"
+                              className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600"
+                              onClick={() => setShowPassword(!showPassword)}
+                            >
+                              {showPassword ? (
+                                <EyeOff size={18} />
+                              ) : (
+                                <Eye size={18} />
+                              )}
+                            </button>
+                          </div>
                         </FormControl>
 
                         <FormMessage />
@@ -325,17 +408,32 @@ const SalonSignUp = () => {
 
               <FormField
                 control={form.control}
+                name="address"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Байгууллагын хаяг</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Энд хаягаа оруулна уу" {...field} />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
                 name="about"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Байгууллагын тухай</FormLabel>
                     <FormControl>
                       <Textarea
-                        id="about"
-                        value={formData.about}
-                        onChange={(e) =>
-                          handleInputChange('about', e.target.value)
-                        }
+                        {...field}
+                        // value={formData.about}
+                        // onChange={(e) =>
+                        //   handleInputChange("about", e.target.value)
+                        // }
                         placeholder="Танай байгууллагын онцлог зүйлсийг дурдана уу."
                         className="min-h-[100px] resize-none focus:border-purple-500 transition-all duration-200"
                       />
@@ -348,12 +446,83 @@ const SalonSignUp = () => {
 
               <FormField
                 control={form.control}
+                name="workdays"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Цагийн хуваарь</FormLabel>
+                    <FormControl>
+                      <div className="flex gap-4" {...field}>
+                        {week.map((day) => {
+                          return (
+                            <Toggle
+                              key={day}
+                              onPressedChange={() =>
+                                form.setValue(
+                                  "workdays",
+                                  form.watch("workdays").includes(day)
+                                    ? form
+                                        .watch("workdays")
+                                        .filter((d) => d !== day)
+                                    : [...form.watch("workdays"), day]
+                                )
+                              }
+                              className="border-1"
+                            >
+                              {day}
+                            </Toggle>
+                          );
+                        })}
+                      </div>
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="w-full flex  gap-4">
+                <div className="">
+                  <FormField
+                    control={form.control}
+                    name="open"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Нээх цаг</FormLabel>
+                        <FormControl>
+                          <Input type="time" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="">
+                  <FormField
+                    control={form.control}
+                    name="close"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Хаах цаг</FormLabel>
+                        <FormControl>
+                          <Input type="time" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+
+              <FormField
+                control={form.control}
                 name="socialUrls"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Cошиал хаяг</FormLabel>
                     <FormControl>
                       <SocialUrlInput
+                        {...field}
                         socialUrls={formData.socialUrls}
                         onChange={handleSocialUrlsChange}
                       />
@@ -363,21 +532,22 @@ const SalonSignUp = () => {
                   </FormItem>
                 )}
               />
+
               <Button
-                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100"
                 type="submit"
+                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100"
               >
                 Бүртгүүлэх
               </Button>
             </form>
           </Form>
-        </Card>
+        </div>
 
         <div className="text-center mt-6 text-gray-600">
           <p>
             Бүртгэлтэй бол
             <a
-              href="#"
+              onClick={() => router.push("login")}
               className="text-purple-600 hover:text-purple-700 font-medium ml-1"
             >
               Нэвтрэх

@@ -75,7 +75,7 @@ const SocialUrlInput: React.FC<SocialUrlInputProps> = ({
               htmlFor="platform"
               className="text-xs text-gray-600 mb-1 block"
             >
-              Platform
+              Платформ
             </Label>
             <Select value={currentPlatform} onValueChange={setCurrentPlatform}>
               <SelectTrigger className="h-9">
@@ -150,7 +150,7 @@ const SocialUrlInput: React.FC<SocialUrlInputProps> = ({
                   onClick={() => removeSocialUrl(index)}
                   className="text-red-500 hover:text-red-700 hover:bg-red-50 ml-2"
                 >
-                  Remove
+                  Хасах
                 </Button>
               </div>
             ))}

@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -26,7 +27,8 @@ const toggleVariants = cva(
       size: "default",
     },
   }
-)
+);
+
 
 function Toggle({
   className,
@@ -41,7 +43,10 @@ function Toggle({
       className={cn(toggleVariants({ variant, size, className }))}
       {...props}
     />
-  )
+
+  );
 }
 
-export { Toggle, toggleVariants }
+export { Toggle, toggleVariants };
+
+
