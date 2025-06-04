@@ -33,6 +33,7 @@ import { Textarea } from "./ui/textarea";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
+import { Toggle } from "./ui/toggle";
 
 interface SocialUrl {
   url: string;
@@ -48,8 +49,11 @@ interface FormData {
   password: string;
   about: string;
   category: string;
+  schedule: object;
   socialUrls: SocialUrl[];
 }
+
+const week = ["Даваа", "Мягмар", "Лхагва", "Пүрэв", "Баасан", "Бямба", "Ням"];
 
 const socialUrlSchema = z.object({
   url: z.string().url(),
@@ -76,6 +80,9 @@ const formSchema = z
     about: z.string(),
     category: z.string().min(2, { message: "Төрлөө сонгоно уу" }),
     socialUrls: z.array(socialUrlSchema),
+    workdays: z.array(z.string()).min(1, "Ядаж нэг ажлын өдөр сонгоно уу"),
+    open: z.string(),
+    close: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
@@ -95,6 +102,7 @@ const SalonSignUp = () => {
     about: "",
     category: "",
     socialUrls: [],
+    schedule: {},
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -110,8 +118,13 @@ const SalonSignUp = () => {
       about: "",
       category: "",
       socialUrls: [],
+      workdays: [],
+      open: "",
+      close: "",
     },
   });
+
+  const [workdays, setWorkdays] = useState([]);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -147,6 +160,10 @@ const SalonSignUp = () => {
     }
   };
 
+  const handleWorkdays = (day: string) => {
+    setWorkdays((prev) => ({ ...prev, day }));
+  };
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const data: FormData = {
@@ -159,6 +176,11 @@ const SalonSignUp = () => {
         about: values.about,
         category: values.category,
         socialUrls: values.socialUrls,
+        schedule: {
+          days: values.workdays,
+          open: values.open,
+          close: values.close,
+        },
       };
 
       console.log("Submitted values:", data);
@@ -423,6 +445,68 @@ const SalonSignUp = () => {
 
               <FormField
                 control={form.control}
+                name="workdays"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Цагийн хуваарь</FormLabel>
+                    <FormControl>
+                      <div className="flex gap-4" {...field}>
+                        {week.map((day) => {
+                          return (
+                            <Toggle
+                              key={day}
+                              // pressed={workdays.includes(day)}
+                              onPressedChange={() => handleWorkdays(day)}
+                              className="border-1"
+                            >
+                              {day}
+                            </Toggle>
+                          );
+                        })}
+                      </div>
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="w-full flex  gap-4">
+                <div className="">
+                  <FormField
+                    control={form.control}
+                    name="open"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Нээх цаг</FormLabel>
+                        <FormControl>
+                          <Input type="time" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="">
+                  <FormField
+                    control={form.control}
+                    name="close"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Хаах цаг</FormLabel>
+                        <FormControl>
+                          <Input type="time" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+
+              <FormField
+                control={form.control}
                 name="socialUrls"
                 render={({ field }) => (
                   <FormItem>
@@ -439,6 +523,7 @@ const SalonSignUp = () => {
                   </FormItem>
                 )}
               />
+
               <Button
                 type="submit"
                 className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100"
