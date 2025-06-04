@@ -1,62 +1,48 @@
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Clock, MapPin, Users } from "lucide-react";
-import Image from "next/image";
+import { Clock } from "lucide-react";
 
-export const ServiceCartComponent = () => {
+interface ServiceCartProps {
+  title: string;
+  description: string;
+  details: string;
+  price: string;
+  duration: string;
+}
+
+export const ServiceCartComponent = ({
+  title,
+  description,
+  details,
+  price,
+  duration,
+}: ServiceCartProps) => {
   return (
-    <div className="w-[560px] h-[570px] border border-gray-200 rounded-2xl hover:shadow-2xl">
-      <div className="relative w-full h-[200px] overflow-hidden group">
-        <Image
-          fill
-          alt="sevice image"
-          src="/uschin.jpeg"
-          className="object-cover rounded-t-2xl transition-transform duration-300 group-hover:scale-105"
-        />
-      </div>
+    <div className="rounded-lg border text-card-foreground shadow-sm hover:shadow-lg transition-shadow duration-200 bg-white">
       <div className="p-6">
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col">
-            <h3 className="font-semibold tracking-tight text-xl text-gray-800">
-              Модерн үсчин
+        <div className="flex flex-col space-y-4">
+          
+          <div className="flex flex-col space-y-1.5">
+            <h3 className="font-semibold tracking-tight text-lg text-gray-800">
+              {title}
             </h3>
-            <p className="text-sm">Орчин үеийн үс засварлах төв</p>
+            <p className="text-sm text-gray-500">{description}</p>
           </div>
-          <div className="flex flex-col gap-3">
-            <div className="flex items-center">
-              <MapPin size={16} className="mr-2" />
-              <p>Баянзүрх дүүрэг</p>
-            </div>
-            <div className="flex items-center">
-              <Users size={16} className="mr-2" />
-              <p>203 үнэлгээ</p>
-            </div>
-            <div className="flex items-center">
-              <Clock size={16} className="mr-2" />
-              <p>09:00 - 19:00</p>
-            </div>
-          </div>
-          <Separator />
-          <div>
-            <p className="mb-2 text-gray-800">Үйлчилгээ:</p>
-            <div className="flex gap-2 mb-4">
-              <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm">
-                Үс засварлах
-              </span>
-              <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm">
-                Өнгө оруулах
-              </span>
-            </div>
 
-            <div className="flex items-center justify-between">
-              <p className="text-lg font-semibold text-gray-700">
-                30,000₮ - 60,000₮
-              </p>
-              <button className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:cursor-pointer hover:bg-pink-600">
-                Цаг захиалах
-              </button>
-            </div>
+          
+          <div className="flex justify-between items-center">
+            <span className="text-2xl font-bold text-rose-500">{price}</span>
+            <span className="text-sm text-gray-500 flex items-center">
+              <Clock size={16} className="w-4 h-4 mr-1" />
+              {duration}
+            </span>
           </div>
+
+          
+          <p className="text-gray-600 text-sm">{details}</p>
+
+          
+          <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-10 px-4 py-2 w-full bg-rose-500 hover:bg-rose-600 text-white">
+            Захиалах
+          </button>
         </div>
       </div>
     </div>
