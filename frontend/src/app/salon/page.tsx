@@ -5,13 +5,15 @@ import ServicesSection from "@/components/ServicesSection";
 import WorkingHours from "@/components/WorkingHours";
 import ContactSection from "@/components/ContactSection";
 import { Footer } from "@/components/Footer";
+import Header from "@/components/Header1";
 
 export default function SalonPage() {
   return (
     <main className="font-sans">
+        <Header/>
       <HeroSection />
-      <ServicesSection />
       <WorkingHours />
+      <ServicesSection />
       <ContactSection />
     </main>
   );
