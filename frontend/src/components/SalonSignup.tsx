@@ -65,9 +65,13 @@ const formSchema = z
     companyName: z.string().min(2, { message: "Нэрээ бүтэн бичнэ үү" }),
     logo: z
       .any()
-      .refine((file) => file instanceof File || (file && file.length > 0), {
-        message: "Лого зургаа оруулна уу",
-      }),
+      .refine(
+        (file) =>
+          ["image/jpeg", "image/jpg", "image/png", "image/webp"].includes(
+            file?.type
+          ),
+        "Only .jpg, .jpeg, .png and .webp formats are supported."
+      ),
     email: z.string().min(2, { message: "Зөв имэйл оруулна уу" }),
     phoneNumber: z.string().min(8, { message: "Зөв утасны дугаар оруулна уу" }),
     address: z.string().min(10, { message: "Хаягаа бүтэн оруулна уу" }),
@@ -109,7 +113,7 @@ const SalonSignUp = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       companyName: "",
-      logo: undefined,
+      logo: "",
       email: "",
       phoneNumber: "",
       address: "",
@@ -124,7 +128,7 @@ const SalonSignUp = () => {
     },
   });
 
-  const [workdays, setWorkdays] = useState([]);
+  const [workdays, setWorkdays] = useState<String[]>([]);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -161,14 +165,16 @@ const SalonSignUp = () => {
   };
 
   const handleWorkdays = (day: string) => {
-    setWorkdays((prev) => ({ ...prev, day }));
+    setWorkdays((prev) =>
+      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
+    );
   };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const data: FormData = {
         companyName: values.companyName,
-        logo: values.logo,
+        logo: values.logo.name,
         email: values.email,
         phoneNumber: values.phoneNumber,
         address: values.address,
@@ -177,14 +183,15 @@ const SalonSignUp = () => {
         category: values.category,
         socialUrls: values.socialUrls,
         schedule: {
-          days: values.workdays,
-          open: values.open,
-          close: values.close,
+          day: `${values.workdays}`,
+          openingTime: values.open,
+          closingTime: values.close,
+          isClosed: false,
         },
       };
 
       console.log("Submitted values:", data);
-      await axios.post(`http://localhost:8000/company`, data);
+      await axios.post(`http://localhost:8000/auth/signupCompany `, data);
       router.push("/login");
     } catch (error) {
       console.error("Submission error:", error);
@@ -238,23 +245,17 @@ const SalonSignUp = () => {
               <FormField
                 control={form.control}
                 name="logo"
-                render={({ field }) => (
+                render={({ field: { value, onChange, ...fieldProps } }) => (
                   <FormItem>
                     <FormLabel>Байгууллагын лого</FormLabel>
                     <FormControl>
                       <Input
                         type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            const reader = new FileReader();
-                            reader.onload = () => {
-                              field.onChange(reader.result);
-                            };
-                            reader.readAsDataURL(file);
-                          }
-                        }}
+                        {...fieldProps}
+                        accept="image/png, image/jpeg, image/jpg"
+                        onChange={(event) =>
+                          onChange(event.target.files && event.target.files[0])
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -455,8 +456,16 @@ const SalonSignUp = () => {
                           return (
                             <Toggle
                               key={day}
-                              // pressed={workdays.includes(day)}
-                              onPressedChange={() => handleWorkdays(day)}
+                              onPressedChange={() =>
+                                form.setValue(
+                                  "workdays",
+                                  form.watch("workdays").includes(day)
+                                    ? form
+                                        .watch("workdays")
+                                        .filter((d) => d !== day)
+                                    : [...form.watch("workdays"), day]
+                                )
+                              }
                               className="border-1"
                             >
                               {day}
