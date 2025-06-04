@@ -28,6 +28,7 @@
     "sonner": "^2.0.3",
     "tailwind-merge": "^3.3.0",
     "zod": "^3.25.34"
+
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -35,7 +36,9 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "tailwindcss": "^4",
+
     "tw-animate-css": "^1.3.0",
+
     "typescript": "^5"
   }
 }
