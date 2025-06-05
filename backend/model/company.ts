@@ -4,8 +4,7 @@ import { scheduler } from "timers/promises";
 
 const TimeTableSchema = new mongoose.Schema({
   day: {
-    type: String,
-    enum: ["Даваа", "Мягмар", "Лхагва", "Пүрэв", "Баасан", "Бямба", "Ням"],
+    type: Array,
     required: true,
   },
   openingTime: {
@@ -17,10 +16,6 @@ const TimeTableSchema = new mongoose.Schema({
     type: String,
     required: true,
     match: [/^\d{2}:\d{2}$/, "Must be in HH:mm format"],
-  },
-  isClosed: {
-    type: Boolean,
-    default: false,
   },
 });
 
