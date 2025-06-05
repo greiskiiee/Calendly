@@ -34,13 +34,14 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { Toggle } from "./ui/toggle";
+import { Step1 } from "./Signup-step1";
 
 interface SocialUrl {
   url: string;
   urlName: string;
 }
 
-interface FormData {
+export interface FormData {
   companyName: string;
   logo: string;
   email: string;
@@ -55,7 +56,7 @@ interface FormData {
 
 const week = ["Даваа", "Мягмар", "Лхагва", "Пүрэв", "Баасан", "Бямба", "Ням"];
 
-const socialUrlSchema = z.object({
+export const socialUrlSchema = z.object({
   url: z.string().url(),
   urlName: z.string().min(1),
 });
@@ -129,7 +130,7 @@ const SalonSignUp = () => {
   });
 
   const [workdays, setWorkdays] = useState<String[]>([]);
-
+  const [step, setStep] = useState(1);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -183,7 +184,7 @@ const SalonSignUp = () => {
         category: values.category,
         socialUrls: values.socialUrls,
         schedule: {
-          day: `${values.workdays}`,
+          day: values.workdays,
           openingTime: values.open,
           closingTime: values.close,
           isClosed: false,
@@ -222,7 +223,7 @@ const SalonSignUp = () => {
             </div>
           </div>
 
-          <Form {...form}>
+          {/* <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-8 px-5"
@@ -430,10 +431,6 @@ const SalonSignUp = () => {
                     <FormControl>
                       <Textarea
                         {...field}
-                        // value={formData.about}
-                        // onChange={(e) =>
-                        //   handleInputChange("about", e.target.value)
-                        // }
                         placeholder="Танай байгууллагын онцлог зүйлсийг дурдана уу."
                         className="min-h-[100px] resize-none focus:border-purple-500 transition-all duration-200"
                       />
@@ -540,7 +537,17 @@ const SalonSignUp = () => {
                 Бүртгүүлэх
               </Button>
             </form>
-          </Form>
+          </Form> */}
+
+          {step == 1 && (
+            <Step1
+              onContinue={() => {
+                setStep((step) => (step += 1));
+              }}
+            />
+          )}
+
+          {step == 2 && <Step1 onContinue={() => onSubmit} />}
         </div>
 
         <div className="text-center mt-6 text-gray-600">
