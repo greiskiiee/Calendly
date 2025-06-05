@@ -1,12 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,10 +13,9 @@ import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff } from "lucide-react";
 import { Textarea } from "./ui/textarea";
-import { Toggle } from "@radix-ui/react-toggle";
 import SocialUrlInput from "./SocialUrlInput";
+import { Toggle } from "./ui/toggle";
 
 type Props = {
   onContinue: () => void;
@@ -57,7 +49,7 @@ const formSchema = z.object({
   close: z.string(),
 });
 
-export const Step2 = () => {
+export const Step2 = (onContinue: Props) => {
   const [formData, setFormData] = useState<FormData>({
     address: "",
     about: "",

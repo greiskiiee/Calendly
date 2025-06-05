@@ -35,6 +35,7 @@ import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { Toggle } from "./ui/toggle";
 import { Step1 } from "./Signup-step1";
+import { Step2 } from "./Signup-step2";
 
 interface SocialUrl {
   url: string;
@@ -547,7 +548,7 @@ const SalonSignUp = () => {
             />
           )}
 
-          {step == 2 && <Step1 onContinue={() => onSubmit} />}
+          {step == 2 && <Step2 onContinue={() => console.log("working")} />}
         </div>
 
         <div className="text-center mt-6 text-gray-600">
