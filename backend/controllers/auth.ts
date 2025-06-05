@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import { companyModel } from '../model/company';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import { sendMail } from "../utils/sendMailer";
 
 configDotenv();
 const secret_key = process.env.SECRET_KEY as string;
@@ -76,5 +77,16 @@ export const signupCompany = async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error);
     return res.status(400).send({ success: false, message: error }).end();
+  }
+};
+
+
+export const sendMailer = async (req: Request, res: Response) => {
+  const { email, subject, text} = req.body;
+  try {
+    const response = await sendMail(email, subject, text);
+    res.status(200).send({ success: true, data: response });
+  } catch (error) {
+    res.status(500).send({ success: false, error: error });
   }
 };
