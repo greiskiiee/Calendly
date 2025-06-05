@@ -1,5 +1,7 @@
 import { Router } from 'express';
-import { loginCompany } from '../controllers/auth';
+import { loginCompany, signupCompany } from '../controllers/auth';
 
 export const authRouter = Router();
-authRouter.post('/loginCompany', loginCompany as any);
+authRouter
+  .post('/loginCompany', loginCompany as any)
+  .post('/signupCompany', signupCompany as any);

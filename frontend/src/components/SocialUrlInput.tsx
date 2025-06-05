@@ -75,7 +75,7 @@ const SocialUrlInput: React.FC<SocialUrlInputProps> = ({
               htmlFor="platform"
               className="text-xs text-gray-600 mb-1 block"
             >
-              Platform
+              Платформ
             </Label>
             <Select value={currentPlatform} onValueChange={setCurrentPlatform}>
               <SelectTrigger className="h-9">
@@ -115,7 +115,7 @@ const SocialUrlInput: React.FC<SocialUrlInputProps> = ({
               }
               className="h-9 bg-purple-600 hover:bg-purple-700 text-white px-4"
             >
-              Add
+              Нэмэх
             </Button>
           </div>
         </div>
@@ -125,7 +125,7 @@ const SocialUrlInput: React.FC<SocialUrlInputProps> = ({
       {socialUrls.length > 0 && (
         <div className="space-y-2">
           <Label className="text-sm font-medium text-gray-700">
-            Added Social Media Links:
+            Бүртгүүлсэн хаягууд:
           </Label>
           <div className="space-y-2">
             {socialUrls.map((social, index) => (
@@ -150,7 +150,7 @@ const SocialUrlInput: React.FC<SocialUrlInputProps> = ({
                   onClick={() => removeSocialUrl(index)}
                   className="text-red-500 hover:text-red-700 hover:bg-red-50 ml-2"
                 >
-                  Remove
+                  Хасах
                 </Button>
               </div>
             ))}

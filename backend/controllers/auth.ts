@@ -2,7 +2,6 @@ import { configDotenv } from 'dotenv';
 import bcrypt from 'bcrypt';
 import { companyModel } from '../model/company';
 import { Request, Response } from 'express';
-import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 
 configDotenv();
@@ -42,5 +41,40 @@ export const loginCompany = async (req: Request, res: Response) => {
     //     message: error,
     //   })
     //   .end();
+  }
+};
+
+export const signupCompany = async (req: Request, res: Response) => {
+  const {
+    companyName,
+    logo,
+    email,
+    phoneNumber,
+    address,
+    password,
+    about,
+    category,
+    schedule,
+    socialUrls,
+  } = req.body;
+
+  const hashedPass = await bcrypt.hash(password, 10);
+  try {
+    const company = await companyModel.create({
+      companyName,
+      logo,
+      email,
+      phoneNumber,
+      address,
+      password: hashedPass,
+      about,
+      category,
+      schedule,
+      socialUrls,
+    });
+    return res.status(200).send({ success: true, company: company }).end();
+  } catch (error) {
+    console.log(error);
+    return res.status(400).send({ success: false, message: error }).end();
   }
 };
