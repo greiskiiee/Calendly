@@ -10,7 +10,7 @@ import Header from "@/components/Header1";
 export default function SalonPage() {
   return (
     <main className="font-sans">
-        <Header/>
+      <Header/>
       <HeroSection />
       <WorkingHours />
       <ServicesSection />
