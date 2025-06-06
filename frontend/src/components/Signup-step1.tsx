@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -53,7 +52,6 @@ const formSchema = z
       ),
     email: z.string().email({ message: "Зөв имэйл оруулна уу" }),
     phoneNumber: z.string().min(8, { message: "Зөв утасны дугаар оруулна уу" }),
-    address: z.string().min(10, { message: "Хаягаа бүтэн оруулна уу" }),
     password: z.string().min(8, {
       message: "Нууц үг 8-аас их тэмдэгттэй байх ёстой",
     }),
@@ -78,48 +76,35 @@ export const Step1 = ({ onContinue }: Props) => {
       logo: undefined,
       email: "",
       phoneNumber: "",
-      address: "",
       password: "",
       confirmPassword: "",
       category: "",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log("working");
-
-    try {
-      const newCompany = {
-        companyName: values.companyName,
-        logo: values.logo.name,
-        email: values.email,
-        phoneNumber: values.phoneNumber,
-        address: "",
-        password: values.password,
-        category: values.category,
-        about: "",
-        socialUrls: [],
-        schedule: {},
-      };
-      console.log(newCompany, "nc");
-      setCompany(newCompany);
-      console.log("Submitted values:", company);
-      onContinue();
-    } catch (error) {
-      console.error("Submission error:", error);
-    }
+    const newCompany = {
+      companyName: values.companyName,
+      logo: values.logo.name,
+      email: values.email,
+      phoneNumber: values.phoneNumber,
+      address: "",
+      password: values.password,
+      category: values.category,
+      about: "",
+      socialUrls: [],
+      schedule: {},
+    };
+    console.log(newCompany, "nc");
+    setCompany(newCompany);
+    console.log("Submitted values:", company);
+    onContinue();
   };
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          console.log("Form submission attempted");
-          form.handleSubmit(onSubmit)(e);
-        }}
-        className="space-y-8 px-5"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 px-5">
         <FormField
           control={form.control}
           name="companyName"
@@ -165,7 +150,11 @@ export const Step1 = ({ onContinue }: Props) => {
                 <FormItem>
                   <FormLabel>Байгууллагын и-мэйл</FormLabel>
                   <FormControl>
-                    <Input placeholder="Энд мэйлээ оруулна уу" {...field} />
+                    <Input
+                      placeholder="Энд мэйлээ оруулна уу"
+                      type="email"
+                      {...field}
+                    />
                   </FormControl>
 
                   <FormMessage />
@@ -260,7 +249,6 @@ export const Step1 = ({ onContinue }: Props) => {
           </div>
 
           <div className="w-1/2">
-            {" "}
             <FormField
               control={form.control}
               name="confirmPassword"
