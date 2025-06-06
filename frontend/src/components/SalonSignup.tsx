@@ -1,21 +1,16 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import React, { useState } from 'react';
+
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -23,17 +18,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { z } from "zod";
-import SocialUrlInput from "./SocialUrlInput";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Textarea } from "./ui/textarea";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { Eye, EyeOff } from "lucide-react";
-import { Toggle } from "./ui/toggle";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { z } from 'zod';
+import SocialUrlInput from './SocialUrlInput';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Textarea } from './ui/textarea';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { Eye, EyeOff } from 'lucide-react';
+import { Toggle } from './ui/toggle';
 
 interface SocialUrl {
   url: string;
@@ -53,7 +48,7 @@ interface FormData {
   socialUrls: SocialUrl[];
 }
 
-const week = ["Даваа", "Мягмар", "Лхагва", "Пүрэв", "Баасан", "Бямба", "Ням"];
+const week = ['Даваа', 'Мягмар', 'Лхагва', 'Пүрэв', 'Баасан', 'Бямба', 'Ням'];
 
 const socialUrlSchema = z.object({
   url: z.string().url(),
@@ -62,49 +57,49 @@ const socialUrlSchema = z.object({
 
 const formSchema = z
   .object({
-    companyName: z.string().min(2, { message: "Нэрээ бүтэн бичнэ үү" }),
+    companyName: z.string().min(2, { message: 'Нэрээ бүтэн бичнэ үү' }),
     logo: z
       .any()
       .refine(
         (file) =>
-          ["image/jpeg", "image/jpg", "image/png", "image/webp"].includes(
+          ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'].includes(
             file?.type
           ),
-        "Only .jpg, .jpeg, .png and .webp formats are supported."
+        'Only .jpg, .jpeg, .png and .webp formats are supported.'
       ),
-    email: z.string().min(2, { message: "Зөв имэйл оруулна уу" }),
-    phoneNumber: z.string().min(8, { message: "Зөв утасны дугаар оруулна уу" }),
-    address: z.string().min(10, { message: "Хаягаа бүтэн оруулна уу" }),
+    email: z.string().min(2, { message: 'Зөв имэйл оруулна уу' }),
+    phoneNumber: z.string().min(8, { message: 'Зөв утасны дугаар оруулна уу' }),
+    address: z.string().min(10, { message: 'Хаягаа бүтэн оруулна уу' }),
     password: z
       .string()
-      .min(8, { message: "Нууц үг 8-аас их тэмдэгттэй байх ёстой" }),
+      .min(8, { message: 'Нууц үг 8-аас их тэмдэгттэй байх ёстой' }),
     confirmPassword: z
       .string()
-      .min(8, { message: "Нууц үг 8-аас их тэмдэгттэй байх ёстой" }),
+      .min(8, { message: 'Нууц үг 8-аас их тэмдэгттэй байх ёстой' }),
     about: z.string(),
-    category: z.string().min(2, { message: "Төрлөө сонгоно уу" }),
+    category: z.string().min(2, { message: 'Төрлөө сонгоно уу' }),
     socialUrls: z.array(socialUrlSchema),
-    workdays: z.array(z.string()).min(1, "Ядаж нэг ажлын өдөр сонгоно уу"),
+    workdays: z.array(z.string()).min(1, 'Ядаж нэг ажлын өдөр сонгоно уу'),
     open: z.string(),
     close: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"],
-    message: "Нууц үг буруу байна.",
+    path: ['confirmPassword'],
+    message: 'Нууц үг буруу байна.',
   });
 
 const SalonSignUp = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<FormData>({
-    companyName: "",
-    logo: "",
-    email: "",
-    phoneNumber: "",
-    address: "",
-    password: "",
-    about: "",
-    category: "",
+    companyName: '',
+    logo: '',
+    email: '',
+    phoneNumber: '',
+    address: '',
+    password: '',
+    about: '',
+    category: '',
     socialUrls: [],
     schedule: {},
   });
@@ -112,19 +107,19 @@ const SalonSignUp = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      companyName: "",
-      logo: "",
-      email: "",
-      phoneNumber: "",
-      address: "",
-      password: "",
-      confirmPassword: "",
-      about: "",
-      category: "",
+      companyName: '',
+      logo: '',
+      email: '',
+      phoneNumber: '',
+      address: '',
+      password: '',
+      confirmPassword: '',
+      about: '',
+      category: '',
       socialUrls: [],
       workdays: [],
-      open: "",
-      close: "",
+      open: '',
+      close: '',
     },
   });
 
@@ -134,17 +129,17 @@ const SalonSignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const categories = [
-    "Үсчин",
-    "Гоо сайхан",
-    "Спа",
-    "Эмчилгээний спа",
-    "Нүүр будалт",
+    'Үсчин',
+    'Гоо сайхан',
+    'Спа',
+    'Эмчилгээний спа',
+    'Нүүр будалт',
   ];
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: "" }));
+      setErrors((prev) => ({ ...prev, [field]: '' }));
     }
   };
 
@@ -158,7 +153,7 @@ const SalonSignUp = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result as string;
-        handleInputChange("logo", result);
+        handleInputChange('logo', result);
       };
       reader.readAsDataURL(file);
     }
@@ -190,11 +185,11 @@ const SalonSignUp = () => {
         },
       };
 
-      console.log("Submitted values:", data);
+      console.log('Submitted values:', data);
       await axios.post(`http://localhost:8000/auth/signupCompany `, data);
-      router.push("/login");
+      router.push('/login');
     } catch (error) {
-      console.error("Submission error:", error);
+      console.error('Submission error:', error);
     }
   };
 
@@ -346,7 +341,7 @@ const SalonSignUp = () => {
                           <div className="relative">
                             <Input
                               {...field}
-                              type={showPassword ? "text" : "password"}
+                              type={showPassword ? 'text' : 'password'}
                               className="w-full py-1 px-4 pr-10 rounded-md bg-white"
                               placeholder="Энд нууц үг оруулна уу"
                             />
@@ -370,7 +365,7 @@ const SalonSignUp = () => {
                 </div>
 
                 <div className="w-1/2">
-                  {" "}
+                  {' '}
                   <FormField
                     control={form.control}
                     name="confirmPassword"
@@ -381,7 +376,7 @@ const SalonSignUp = () => {
                           <div className="relative">
                             <Input
                               {...field}
-                              type={showPassword ? "text" : "password"}
+                              type={showPassword ? 'text' : 'password'}
                               className="w-full py-1 px-4 pr-10 rounded-md bg-white"
                               placeholder="Энд нууц үг оруулна уу"
                             />
@@ -458,12 +453,12 @@ const SalonSignUp = () => {
                               key={day}
                               onPressedChange={() =>
                                 form.setValue(
-                                  "workdays",
-                                  form.watch("workdays").includes(day)
+                                  'workdays',
+                                  form.watch('workdays').includes(day)
                                     ? form
-                                        .watch("workdays")
+                                        .watch('workdays')
                                         .filter((d) => d !== day)
-                                    : [...form.watch("workdays"), day]
+                                    : [...form.watch('workdays'), day]
                                 )
                               }
                               className="border-1"
@@ -547,7 +542,7 @@ const SalonSignUp = () => {
           <p>
             Бүртгэлтэй бол
             <a
-              onClick={() => router.push("login")}
+              onClick={() => router.push('login')}
               className="text-purple-600 hover:text-purple-700 font-medium ml-1"
             >
               Нэвтрэх
