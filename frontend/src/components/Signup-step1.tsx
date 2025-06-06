@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -22,10 +23,12 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
+import { CompanyContext } from "./contexts/CompanyContext";
 
 type Props = {
   onContinue: () => void;
 };
+
 const categories = [
   "Үсчин",
   "Гоо сайхан",
@@ -44,32 +47,35 @@ const formSchema = z
           ["image/jpeg", "image/jpg", "image/png", "image/webp"].includes(
             file?.type
           ),
-        "Only .jpg, .jpeg, .png and .webp formats are supported."
+        {
+          message: "Only .jpg, .jpeg, .png and .webp formats are supported.",
+        }
       ),
-    email: z.string().min(2, { message: "Зөв имэйл оруулна уу" }),
+    email: z.string().email({ message: "Зөв имэйл оруулна уу" }),
     phoneNumber: z.string().min(8, { message: "Зөв утасны дугаар оруулна уу" }),
     address: z.string().min(10, { message: "Хаягаа бүтэн оруулна уу" }),
-    password: z
-      .string()
-      .min(8, { message: "Нууц үг 8-аас их тэмдэгттэй байх ёстой" }),
-    confirmPassword: z
-      .string()
-      .min(8, { message: "Нууц үг 8-аас их тэмдэгттэй байх ёстой" }),
+    password: z.string().min(8, {
+      message: "Нууц үг 8-аас их тэмдэгттэй байх ёстой",
+    }),
+    confirmPassword: z.string().min(8, {
+      message: "Нууц үг 8-аас их тэмдэгттэй байх ёстой",
+    }),
     category: z.string().min(2, { message: "Төрлөө сонгоно уу" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
+    message: "Нууц үг таарахгүй байна",
     path: ["confirmPassword"],
-    message: "Нууц үг буруу байна.",
   });
 
 export const Step1 = ({ onContinue }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
+  const { company, setCompany } = useContext(CompanyContext);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       companyName: "",
-      logo: "",
+      logo: undefined,
       email: "",
       phoneNumber: "",
       address: "",
@@ -80,17 +86,25 @@ export const Step1 = ({ onContinue }: Props) => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log("working");
+
     try {
-      const data = {
+      const newCompany = {
         companyName: values.companyName,
         logo: values.logo.name,
         email: values.email,
         phoneNumber: values.phoneNumber,
-        address: values.address,
+        address: "",
         password: values.password,
+        category: values.category,
+        about: "",
+        socialUrls: [],
+        schedule: {},
       };
-
-      console.log("Submitted values:", data);
+      console.log(newCompany, "nc");
+      setCompany(newCompany);
+      console.log("Submitted values:", company);
+      onContinue();
     } catch (error) {
       console.error("Submission error:", error);
     }
@@ -98,7 +112,14 @@ export const Step1 = ({ onContinue }: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 px-5">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          console.log("Form submission attempted");
+          form.handleSubmit(onSubmit)(e);
+        }}
+        className="space-y-8 px-5"
+      >
         <FormField
           control={form.control}
           name="companyName"
@@ -274,9 +295,7 @@ export const Step1 = ({ onContinue }: Props) => {
             />
           </div>
         </div>
-
         <Button
-          onClick={onContinue}
           type="submit"
           className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100"
         >

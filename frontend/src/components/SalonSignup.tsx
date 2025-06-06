@@ -55,8 +55,6 @@ export interface FormData {
   socialUrls: SocialUrl[];
 }
 
-const week = ["Даваа", "Мягмар", "Лхагва", "Пүрэв", "Баасан", "Бямба", "Ням"];
-
 export const socialUrlSchema = z.object({
   url: z.string().url(),
   urlName: z.string().min(1),
@@ -97,7 +95,6 @@ const formSchema = z
 
 const SalonSignUp = () => {
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     companyName: "",
     logo: "",
@@ -134,14 +131,6 @@ const SalonSignUp = () => {
   const [step, setStep] = useState(1);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
-
-  const categories = [
-    "Үсчин",
-    "Гоо сайхан",
-    "Спа",
-    "Эмчилгээний спа",
-    "Нүүр будалт",
-  ];
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -548,7 +537,9 @@ const SalonSignUp = () => {
             />
           )}
 
-          {step == 2 && <Step2 onContinue={() => console.log("working")} />}
+          {step == 2 && (
+            <Step2 onContinue={() => setStep((step) => (step -= 1))} />
+          )}
         </div>
 
         <div className="text-center mt-6 text-gray-600">
