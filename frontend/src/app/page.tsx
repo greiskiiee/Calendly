@@ -2,6 +2,7 @@ import { MainAreaComponent } from "../components/MainArea";
 import { HeaderComponent } from "../components/Header";
 import { ServiceCartComponent } from "@/components/ServiceCard";
 
+
 export default function Home() {
   return (
     <div className="flex flex-col gap-8">
@@ -11,7 +12,17 @@ export default function Home() {
         Танд тохирсон салоноо сонгоорой
       </div>
 
-      <div className="flex flex-wrap max-w-6xl mx-auto gap-8"></div>
+
+      <div className="flex flex-wrap max-w-6xl mx-auto gap-8">
+        {/* <ServiceCartComponent /> */}
+        <ServiceCartComponent
+          title="Deluxe Cleaning"
+          description="Full house cleaning service"
+          details="Includes kitchen, bathroom, and living room"
+          price="150"
+          duration="2 hours"
+        />
+      </div>
     </div>
   );
 }
