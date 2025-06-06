@@ -302,7 +302,7 @@ const SalonLogin = () => {
           <p>
             Бүртгэлгүй бол
             <a
-              href="/register"
+              href="/signup"
               className="text-purple-600 hover:text-purple-700 font-medium ml-1"
             >
               Бүртгүүлэх

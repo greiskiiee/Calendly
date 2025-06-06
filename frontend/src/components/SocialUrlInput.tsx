@@ -56,15 +56,6 @@ const SocialUrlInput: React.FC<SocialUrlInputProps> = ({
     onChange(updatedUrls);
   };
 
-  const isValidUrl = (url: string) => {
-    try {
-      new URL(url);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
   return (
     <div className="space-y-4">
       {/* Add new social URL */}
@@ -108,11 +99,7 @@ const SocialUrlInput: React.FC<SocialUrlInputProps> = ({
             <Button
               type="button"
               onClick={addSocialUrl}
-              disabled={
-                !currentUrl.trim() ||
-                !currentPlatform ||
-                !isValidUrl(currentUrl)
-              }
+              disabled={!currentUrl.trim() || !currentPlatform}
               className="h-9 bg-purple-600 hover:bg-purple-700 text-white px-4"
             >
               Нэмэх
