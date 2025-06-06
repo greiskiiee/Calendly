@@ -1,4 +1,4 @@
-import  {ServiceCartComponent}  from './ServiceCard'
+import { ServiceCartComponent } from './ServiceCard'
 
 const ServicesSection = () => {
     const services = [
@@ -38,7 +38,7 @@ const ServicesSection = () => {
         duration: '75 мин',
       },
     ];
-    
+
   return (
     <section id="services" className="py-16 px-4 bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
       <div className="max-w-6xl mx-auto">
@@ -46,7 +46,7 @@ const ServicesSection = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {services.map((service, index) => (
   <ServiceCartComponent
-    key={index} 
+    key={index}
     title={service.title}
     description={service.description}
     details={service.details}
@@ -54,8 +54,6 @@ const ServicesSection = () => {
     duration={service.duration}
   />
 ))}
-
-
         </div>
       </div>
     </section>

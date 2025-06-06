@@ -15,10 +15,7 @@ export default function Home() {
         Танд тохирсон салоноо сонгоорой
       </div>
       <div className="flex flex-wrap max-w-6xl mx-auto gap-8">
-        <ServiceCartComponent />
-        <ServiceCartComponent />
-        <ServiceCartComponent />
-        <ServiceCartComponent />
+        <ServiceCartComponent/>
       </div>
     </div>
   );

@@ -1,6 +1,12 @@
+"use client";
+
 import { ArrowLeft, Clock } from "lucide-react";
 
+
+import { useRouter } from "next/navigation";
+
 const Header = () => {
+  const router = useRouter();
   return (
     <header className="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
@@ -29,7 +35,9 @@ const Header = () => {
               Захиалга удирдах
             </button>
           </a>
-          <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white">
+          <button
+          onClick={() => router.push("/order")}
+           className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white">
             Цаг захиалах
           </button>
         </div>
