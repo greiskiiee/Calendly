@@ -9,7 +9,13 @@ import { authRouter } from '../router/auth';
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    // origin: 'http://localhost:3000',
+  })
+);
 app.use(json());
 
 connectMongoDB();
