@@ -273,21 +273,11 @@ const AdminBookings = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 pb-16">
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-4">
-            <div>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-gray-600 hover:text-gray-800"
-              >
-                <ArrowLeft className="w-4 h-4 mr-1" />
-                Буцах
-              </Button>
-            </div>
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-rose-500 rounded-full flex items-center justify-center">
                 <Calendar className="w-5 h-5 text-white" />
