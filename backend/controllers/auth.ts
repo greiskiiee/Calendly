@@ -25,7 +25,14 @@ export const loginCompany = async (req: Request, res: Response) => {
       const token = jwt.sign({ ...company }, secret_key, {
         expiresIn: 3600 * 24,
       });
-
+      // console.log('1 working token...', token);
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'lax',
+        path: '/',
+      });
+      // console.log('2 working token...', token);
       return res.status(200).send({ success: true, token });
     } else {
       return res
