@@ -56,8 +56,6 @@ const SalonLogin = () => {
 
       router.push("/admin");
     } catch (error) {
-      console.log("huts");
-
       console.error("Login error:", error);
       form.setError("root", {
         message: "Нэвтрэхэд алдаа гарлаа. Имэйл эсвэл нууц үгээ шалгана уу.",

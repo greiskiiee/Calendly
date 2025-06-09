@@ -38,6 +38,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { SelectedBookingCard } from "./SelectedBookingCard";
+import { AdminHeader } from "./AdminHeader";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
 
 const mockBookings = [
   {
@@ -108,7 +120,6 @@ const AdminBookings = () => {
   const [bookings, setBookings] = useState(mockBookings);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [selectedBooking, setSelectedBooking] = useState<any>(null);
 
   const filteredBookings = bookings.filter((booking) => {
     const matchesSearch =
@@ -134,161 +145,14 @@ const AdminBookings = () => {
     });
   };
 
-  const todayBookings = bookings.filter((b) => b.date === "2024-01-15").length;
+  const todayBookings = bookings.filter((b) => b.date === "2024-01-17").length;
   const weeklyRevenue = bookings
     .filter((b) => b.status === "completed")
     .reduce((sum, b) => sum + parseInt(b.price.replace(/[₮,]/g, "")), 0);
 
-  if (selectedBooking) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 p-4">
-        <div className="max-w-2xl mx-auto">
-          <Button
-            onClick={() => setSelectedBooking(null)}
-            variant="outline"
-            className="mb-6"
-          >
-            ← Буцах
-          </Button>
-
-          <Card className="shadow-lg">
-            <CardHeader>
-              <CardTitle className="text-2xl text-gray-800">
-                Захиалгын дэлгэрэнгүй
-              </CardTitle>
-              <CardDescription>Захиалга #{selectedBooking.id}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <h3 className="font-semibold text-gray-700 mb-2">
-                    Үйлчлүүлэгчийн мэдээлэл
-                  </h3>
-                  <p>
-                    <strong>Нэр:</strong> {selectedBooking.customerName}
-                  </p>
-                  <p>
-                    <strong>Утас:</strong> {selectedBooking.phone}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-700 mb-2">
-                    Үйлчилгээний мэдээлэл
-                  </h3>
-                  <p>
-                    <strong>Үйлчилгээ:</strong> {selectedBooking.service}
-                  </p>
-                  <p>
-                    <strong>Үнэ:</strong> {selectedBooking.price}
-                  </p>
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <h3 className="font-semibold text-gray-700 mb-2">
-                    Огноо цаг
-                  </h3>
-                  <p>
-                    <strong>Огноо:</strong> {selectedBooking.date}
-                  </p>
-                  <p>
-                    <strong>Цаг:</strong> {selectedBooking.time}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-700 mb-2">Төлөв</h3>
-                  <Badge
-                    className={
-                      statusConfig[
-                        selectedBooking.status as keyof typeof statusConfig
-                      ].color
-                    }
-                  >
-                    {
-                      statusConfig[
-                        selectedBooking.status as keyof typeof statusConfig
-                      ].label
-                    }
-                  </Badge>
-                </div>
-              </div>
-
-              {selectedBooking.notes && (
-                <div>
-                  <h3 className="font-semibold text-gray-700 mb-2">
-                    Нэмэлт тэмдэглэл
-                  </h3>
-                  <p className="bg-gray-50 p-3 rounded-lg">
-                    {selectedBooking.notes}
-                  </p>
-                </div>
-              )}
-
-              <div className="flex gap-2 pt-4">
-                <Button
-                  onClick={() =>
-                    updateBookingStatus(selectedBooking.id, "confirmed")
-                  }
-                  className="bg-blue-500 hover:bg-blue-600"
-                  disabled={
-                    selectedBooking.status === "completed" ||
-                    selectedBooking.status === "cancelled"
-                  }
-                >
-                  <CheckCircle className="w-4 h-4 mr-2" />
-                  Баталгаажуулах
-                </Button>
-                <Button
-                  onClick={() =>
-                    updateBookingStatus(selectedBooking.id, "completed")
-                  }
-                  className="bg-green-500 hover:bg-green-600"
-                  disabled={
-                    selectedBooking.status === "completed" ||
-                    selectedBooking.status === "cancelled"
-                  }
-                >
-                  Дуусгах
-                </Button>
-                <Button
-                  onClick={() =>
-                    updateBookingStatus(selectedBooking.id, "cancelled")
-                  }
-                  variant="destructive"
-                  disabled={
-                    selectedBooking.status === "completed" ||
-                    selectedBooking.status === "cancelled"
-                  }
-                >
-                  <XCircle className="w-4 h-4 mr-2" />
-                  Цуцлах
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 pb-16">
-      {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-rose-500 rounded-full flex items-center justify-center">
-                <Calendar className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-gray-800">
-                Захиалгын удирдлага
-              </span>
-            </div>
-          </div>
-        </div>
-      </header>
+      <AdminHeader />
 
       {/* Stats Cards */}
       <section className="py-8 px-4">
@@ -451,13 +315,11 @@ const AdminBookings = () => {
                       <TableCell>{booking.price}</TableCell>
                       <TableCell>
                         <div className="flex gap-2">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => setSelectedBooking(booking)}
-                          >
-                            <Eye className="w-4 h-4" />
-                          </Button>
+                          <SelectedBookingCard
+                            selectedBooking={booking}
+                            onUpdateStatus={updateBookingStatus}
+                          />
+
                           {booking.status === "pending" && (
                             <Button
                               size="sm"
