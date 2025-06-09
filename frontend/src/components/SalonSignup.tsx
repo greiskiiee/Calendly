@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 import {
   Select,
@@ -8,9 +8,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -32,7 +32,6 @@ import { Toggle } from "./ui/toggle";
 import { Step1 } from "./Signup-step1";
 import { Step2 } from "./Signup-step2";
 
-
 interface SocialUrl {
   url: string;
   urlName: string;
@@ -51,7 +50,6 @@ export interface FormData {
   socialUrls: SocialUrl[];
 }
 
-
 const socialUrlSchema = z.object({
   url: z.string().url(),
   urlName: z.string().min(1),
@@ -59,48 +57,48 @@ const socialUrlSchema = z.object({
 
 const formSchema = z
   .object({
-    companyName: z.string().min(2, { message: 'Нэрээ бүтэн бичнэ үү' }),
+    companyName: z.string().min(2, { message: "Нэрээ бүтэн бичнэ үү" }),
     logo: z
       .any()
       .refine(
         (file) =>
-          ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'].includes(
+          ["image/jpeg", "image/jpg", "image/png", "image/webp"].includes(
             file?.type
           ),
-        'Only .jpg, .jpeg, .png and .webp formats are supported.'
+        "Only .jpg, .jpeg, .png and .webp formats are supported."
       ),
-    email: z.string().min(2, { message: 'Зөв имэйл оруулна уу' }),
-    phoneNumber: z.string().min(8, { message: 'Зөв утасны дугаар оруулна уу' }),
-    address: z.string().min(10, { message: 'Хаягаа бүтэн оруулна уу' }),
+    email: z.string().min(2, { message: "Зөв имэйл оруулна уу" }),
+    phoneNumber: z.string().min(8, { message: "Зөв утасны дугаар оруулна уу" }),
+    address: z.string().min(10, { message: "Хаягаа бүтэн оруулна уу" }),
     password: z
       .string()
-      .min(8, { message: 'Нууц үг 8-аас их тэмдэгттэй байх ёстой' }),
+      .min(8, { message: "Нууц үг 8-аас их тэмдэгттэй байх ёстой" }),
     confirmPassword: z
       .string()
-      .min(8, { message: 'Нууц үг 8-аас их тэмдэгттэй байх ёстой' }),
+      .min(8, { message: "Нууц үг 8-аас их тэмдэгттэй байх ёстой" }),
     about: z.string(),
-    category: z.string().min(2, { message: 'Төрлөө сонгоно уу' }),
+    category: z.string().min(2, { message: "Төрлөө сонгоно уу" }),
     socialUrls: z.array(socialUrlSchema),
-    workdays: z.array(z.string()).min(1, 'Ядаж нэг ажлын өдөр сонгоно уу'),
+    workdays: z.array(z.string()).min(1, "Ядаж нэг ажлын өдөр сонгоно уу"),
     open: z.string(),
     close: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    path: ['confirmPassword'],
-    message: 'Нууц үг буруу байна.',
+    path: ["confirmPassword"],
+    message: "Нууц үг буруу байна.",
   });
 
 const SalonSignUp = () => {
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
-    companyName: '',
-    logo: '',
-    email: '',
-    phoneNumber: '',
-    address: '',
-    password: '',
-    about: '',
-    category: '',
+    companyName: "",
+    logo: "",
+    email: "",
+    phoneNumber: "",
+    address: "",
+    password: "",
+    about: "",
+    category: "",
     socialUrls: [],
     schedule: {},
   });
@@ -108,19 +106,19 @@ const SalonSignUp = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      companyName: '',
-      logo: '',
-      email: '',
-      phoneNumber: '',
-      address: '',
-      password: '',
-      confirmPassword: '',
-      about: '',
-      category: '',
+      companyName: "",
+      logo: "",
+      email: "",
+      phoneNumber: "",
+      address: "",
+      password: "",
+      confirmPassword: "",
+      about: "",
+      category: "",
       socialUrls: [],
       workdays: [],
-      open: '',
-      close: '',
+      open: "",
+      close: "",
     },
   });
 
@@ -132,7 +130,7 @@ const SalonSignUp = () => {
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: '' }));
+      setErrors((prev) => ({ ...prev, [field]: "" }));
     }
   };
 
@@ -146,7 +144,7 @@ const SalonSignUp = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result as string;
-        handleInputChange('logo', result);
+        handleInputChange("logo", result);
       };
       reader.readAsDataURL(file);
     }
@@ -158,36 +156,8 @@ const SalonSignUp = () => {
     );
   };
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      const data: FormData = {
-        companyName: values.companyName,
-        logo: values.logo.name,
-        email: values.email,
-        phoneNumber: values.phoneNumber,
-        address: values.address,
-        password: values.password,
-        about: values.about,
-        category: values.category,
-        socialUrls: values.socialUrls,
-        schedule: {
-          day: values.workdays,
-          openingTime: values.open,
-          closingTime: values.close,
-          isClosed: false,
-        },
-      };
-
-      console.log('Submitted values:', data);
-      await axios.post(`http://localhost:8000/auth/signupCompany `, data);
-      router.push('/login');
-    } catch (error) {
-      console.error('Submission error:', error);
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-100 p-4">
+    <div className="min-h-[800px] bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-100 px-4 py-16">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
@@ -210,322 +180,6 @@ const SalonSignUp = () => {
             </div>
           </div>
 
-          {/* <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-8 px-5"
-            >
-              <FormField
-                control={form.control}
-                name="companyName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Байгууллагын нэр</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Энд нэрээ оруулна уу" {...field} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="logo"
-                render={({ field: { value, onChange, ...fieldProps } }) => (
-                  <FormItem>
-                    <FormLabel>Байгууллагын лого</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="file"
-                        {...fieldProps}
-                        accept="image/png, image/jpeg, image/jpg"
-                        onChange={(event) =>
-                          onChange(event.target.files && event.target.files[0])
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="w-full flex justify-between gap-4">
-                <div className="w-1/2">
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Байгууллагын и-мэйл</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Энд мэйлээ оруулна уу"
-                            {...field}
-                          />
-                        </FormControl>
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="w-1/2">
-                  <FormField
-                    control={form.control}
-                    name="phoneNumber"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Байгууллагын утасны дугаар</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Энд утасны дугаараа оруулна уу"
-                            {...field}
-                          />
-                        </FormControl>
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-
-              <FormField
-                control={form.control}
-                name="category"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Байгууллагын төрөл</FormLabel>
-                    <FormControl>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Төрлөө сонгоно уу" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {categories.map((category) => (
-                            <SelectItem key={category} value={category}>
-                              {category}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="w-full flex justify-between gap-4">
-                <div className="w-1/2">
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Нууц үг</FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <Input
-                              {...field}
-                              type={showPassword ? 'text' : 'password'}
-                              className="w-full py-1 px-4 pr-10 rounded-md bg-white"
-                              placeholder="Энд нууц үг оруулна уу"
-                            />
-                            <button
-                              type="button"
-                              className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600"
-                              onClick={() => setShowPassword(!showPassword)}
-                            >
-                              {showPassword ? (
-                                <EyeOff size={18} />
-                              ) : (
-                                <Eye size={18} />
-                              )}
-                            </button>
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="w-1/2">
-                  {' '}
-                  <FormField
-                    control={form.control}
-                    name="confirmPassword"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Нууц үг давтах</FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <Input
-                              {...field}
-                              type={showPassword ? 'text' : 'password'}
-                              className="w-full py-1 px-4 pr-10 rounded-md bg-white"
-                              placeholder="Энд нууц үг оруулна уу"
-                            />
-                            <button
-                              type="button"
-                              className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600"
-                              onClick={() => setShowPassword(!showPassword)}
-                            >
-                              {showPassword ? (
-                                <EyeOff size={18} />
-                              ) : (
-                                <Eye size={18} />
-                              )}
-                            </button>
-                          </div>
-                        </FormControl>
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-
-              <FormField
-                control={form.control}
-                name="address"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Байгууллагын хаяг</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Энд хаягаа оруулна уу" {...field} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="about"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Байгууллагын тухай</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        {...field}
-                        placeholder="Танай байгууллагын онцлог зүйлсийг дурдана уу."
-                        className="min-h-[100px] resize-none focus:border-purple-500 transition-all duration-200"
-                      />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="workdays"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Цагийн хуваарь</FormLabel>
-                    <FormControl>
-                      <div className="flex gap-4" {...field}>
-                        {week.map((day) => {
-                          return (
-                            <Toggle
-                              key={day}
-                              onPressedChange={() =>
-                                form.setValue(
-                                  'workdays',
-                                  form.watch('workdays').includes(day)
-                                    ? form
-                                        .watch('workdays')
-                                        .filter((d) => d !== day)
-                                    : [...form.watch('workdays'), day]
-                                )
-                              }
-                              className="border-1"
-                            >
-                              {day}
-                            </Toggle>
-                          );
-                        })}
-                      </div>
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="w-full flex  gap-4">
-                <div className="">
-                  <FormField
-                    control={form.control}
-                    name="open"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Нээх цаг</FormLabel>
-                        <FormControl>
-                          <Input type="time" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="">
-                  <FormField
-                    control={form.control}
-                    name="close"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Хаах цаг</FormLabel>
-                        <FormControl>
-                          <Input type="time" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-
-              <FormField
-                control={form.control}
-                name="socialUrls"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Cошиал хаяг</FormLabel>
-                    <FormControl>
-                      <SocialUrlInput
-                        {...field}
-                        socialUrls={formData.socialUrls}
-                        onChange={handleSocialUrlsChange}
-                      />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <Button
-                type="submit"
-                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100"
-              >
-                Бүртгүүлэх
-              </Button>
-            </form>
-          </Form> */}
-
           {step == 1 && (
             <Step1
               onContinue={() => {
@@ -543,8 +197,8 @@ const SalonSignUp = () => {
           <p>
             Бүртгэлтэй бол
             <a
-              onClick={() => router.push('login')}
-              className="text-purple-600 hover:text-purple-700 font-medium ml-1"
+              href="/login"
+              className="text-purple-600 hover:text-purple-700 font-medium ml-1 underline"
             >
               Нэвтрэх
             </a>
