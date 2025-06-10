@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 import {
   Select,
@@ -8,9 +8,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -18,19 +18,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { z } from "zod";
-import SocialUrlInput from "./SocialUrlInput";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Textarea } from "./ui/textarea";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { Eye, EyeOff } from "lucide-react";
-import { Toggle } from "./ui/toggle";
-import { Step1 } from "./Signup-step1";
-import { Step2 } from "./Signup-step2";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { z } from 'zod';
+import SocialUrlInput from './SocialUrlInput';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Textarea } from './ui/textarea';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { Eye, EyeOff } from 'lucide-react';
+import { Toggle } from './ui/toggle';
+import { Step1 } from './Signup-step1';
+import { Step2 } from './Signup-step2';
 
 interface SocialUrl {
   url: string;
@@ -57,48 +57,48 @@ const socialUrlSchema = z.object({
 
 const formSchema = z
   .object({
-    companyName: z.string().min(2, { message: "Нэрээ бүтэн бичнэ үү" }),
+    companyName: z.string().min(2, { message: 'Нэрээ бүтэн бичнэ үү' }),
     logo: z
       .any()
       .refine(
         (file) =>
-          ["image/jpeg", "image/jpg", "image/png", "image/webp"].includes(
+          ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'].includes(
             file?.type
           ),
-        "Only .jpg, .jpeg, .png and .webp formats are supported."
+        'Only .jpg, .jpeg, .png and .webp formats are supported.'
       ),
-    email: z.string().min(2, { message: "Зөв имэйл оруулна уу" }),
-    phoneNumber: z.string().min(8, { message: "Зөв утасны дугаар оруулна уу" }),
-    address: z.string().min(10, { message: "Хаягаа бүтэн оруулна уу" }),
+    email: z.string().min(2, { message: 'Зөв имэйл оруулна уу' }),
+    phoneNumber: z.string().min(8, { message: 'Зөв утасны дугаар оруулна уу' }),
+    address: z.string().min(10, { message: 'Хаягаа бүтэн оруулна уу' }),
     password: z
       .string()
-      .min(8, { message: "Нууц үг 8-аас их тэмдэгттэй байх ёстой" }),
+      .min(8, { message: 'Нууц үг 8-аас их тэмдэгттэй байх ёстой' }),
     confirmPassword: z
       .string()
-      .min(8, { message: "Нууц үг 8-аас их тэмдэгттэй байх ёстой" }),
+      .min(8, { message: 'Нууц үг 8-аас их тэмдэгттэй байх ёстой' }),
     about: z.string(),
-    category: z.string().min(2, { message: "Төрлөө сонгоно уу" }),
+    category: z.string().min(2, { message: 'Төрлөө сонгоно уу' }),
     socialUrls: z.array(socialUrlSchema),
-    workdays: z.array(z.string()).min(1, "Ядаж нэг ажлын өдөр сонгоно уу"),
+    workdays: z.array(z.string()).min(1, 'Ядаж нэг ажлын өдөр сонгоно уу'),
     open: z.string(),
     close: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"],
-    message: "Нууц үг буруу байна.",
+    path: ['confirmPassword'],
+    message: 'Нууц үг буруу байна.',
   });
 
 const SalonSignUp = () => {
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
-    companyName: "",
-    logo: "",
-    email: "",
-    phoneNumber: "",
-    address: "",
-    password: "",
-    about: "",
-    category: "",
+    companyName: '',
+    logo: '',
+    email: '',
+    phoneNumber: '',
+    address: '',
+    password: '',
+    about: '',
+    category: '',
     socialUrls: [],
     schedule: {},
   });
@@ -106,19 +106,19 @@ const SalonSignUp = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      companyName: "",
-      logo: "",
-      email: "",
-      phoneNumber: "",
-      address: "",
-      password: "",
-      confirmPassword: "",
-      about: "",
-      category: "",
+      companyName: '',
+      logo: '',
+      email: '',
+      phoneNumber: '',
+      address: '',
+      password: '',
+      confirmPassword: '',
+      about: '',
+      category: '',
       socialUrls: [],
       workdays: [],
-      open: "",
-      close: "",
+      open: '',
+      close: '',
     },
   });
 
@@ -130,7 +130,7 @@ const SalonSignUp = () => {
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: "" }));
+      setErrors((prev) => ({ ...prev, [field]: '' }));
     }
   };
 
@@ -144,7 +144,7 @@ const SalonSignUp = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result as string;
-        handleInputChange("logo", result);
+        handleInputChange('logo', result);
       };
       reader.readAsDataURL(file);
     }
@@ -161,7 +161,7 @@ const SalonSignUp = () => {
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
-            Бидэнтэй нэгдээрэй ТВ8
+            Бидэнтэй нэгдээрэй
           </h1>
           <p className="text-gray-600 text-lg">
             Бүртгүүлээд хэрэглэгчидтэй илүү хурдан холбогдоорой.
