@@ -45,7 +45,7 @@ const ServicesSection = () => {
       className="py-16 px-4 bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50"
     >
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">
+        <h2 className="text-xl md:text-3xl font-bold text-center text-gray-800 mb-12">
           Манай үйлчилгээ
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -32,7 +32,9 @@ export const ServiceCartComponent = ({
           </div>
 
           <div className="flex justify-between items-center">
-            <span className="text-2xl font-bold text-rose-500">{price}</span>
+            <span className="text-md md:text-2xl font-bold text-rose-500">
+              {price}
+            </span>
             <span className="text-sm text-gray-500 flex items-center">
               <Clock size={16} className="w-4 h-4 mr-1" />
               {duration}

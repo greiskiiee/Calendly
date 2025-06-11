@@ -15,13 +15,13 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+    <section className="py-10 md:py-20 px-4 bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
       <div className="max-w-4xl mx-auto text-center">
-        <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-6 leading-tight">
+        <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold text-gray-800 mb-6 leading-tight">
           Нараа Beauty Salon-д <br />
           <span className="text-rose-500">тавтай морилно уу!</span>
         </h1>
-        <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+        <p className="text-md md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
           Гоо сайхныхаа төлөө хамгийн шилдэг үйлчилгээг авахын тулд онлайнаар
           хялбархан цаг захиалаарай
         </p>
