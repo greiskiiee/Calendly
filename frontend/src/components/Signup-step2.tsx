@@ -150,7 +150,10 @@ export const Step2 = ({ onContinue }: Props) => {
             <FormItem>
               <FormLabel>Цагийн хуваарь</FormLabel>
               <FormControl>
-                <div className="flex gap-4" {...field}>
+                <div
+                  className="flex flex-wrap gap-3 md:flex-row md:gap-4"
+                  {...field}
+                >
                   {week.map((day) => {
                     return (
                       <Toggle

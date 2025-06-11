@@ -7,8 +7,8 @@ import { useRouter } from "next/navigation";
 export const SalonCartComponent = () => {
   const router = useRouter();
   return (
-    <div className="w-[560px] h-[570px] border border-gray-200 rounded-2xl hover:shadow-2xl">
-      <div className="relative w-full h-[200px] overflow-hidden group">
+    <div className=" h-[570px] lg:w-[560px] lg:h-[570px] border border-gray-200 rounded-2xl hover:shadow-2xl">
+      <div className="relative w-full h-[140px] md:h-[200px]  overflow-hidden group">
         <Image
           fill
           alt="sevice image"
@@ -50,7 +50,7 @@ export const SalonCartComponent = () => {
               </span>
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
               <p className="text-lg font-semibold text-gray-700">
                 30,000₮ - 60,000₮
               </p>
@@ -58,7 +58,7 @@ export const SalonCartComponent = () => {
                 onClick={() => router.push("/salon")}
                 className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:cursor-pointer hover:bg-pink-600"
               >
-                Цаг захиалах
+                Дэлгэрэнгүй
               </button>
             </div>
           </div>

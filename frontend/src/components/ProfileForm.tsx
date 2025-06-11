@@ -54,7 +54,6 @@ const formSchema = z.object({
 });
 
 export function ProfileForm() {
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -67,14 +66,12 @@ export function ProfileForm() {
     },
   });
 
-
   function onSubmit(values: z.infer<typeof formSchema>) {
-
     console.log(values);
   }
   return (
     <div className="">
-      <div className="w-fit h-fit flex bg-white items-center justify-center flex-col  gap-4 p-6 rounded-md ">
+      <div className="w-fit h-fit flex bg-white items-center justify-center flex-col gap-4 p-6 rounded-md ">
         <h1 className="text-semibold tracking-light text-2xl font-semibold text-gray-800 ">
           Цаг захиалах
         </h1>
