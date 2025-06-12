@@ -4,7 +4,12 @@ import React from "react";
 import { Calendar } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-const HeroSection = () => {
+type Props = {
+  name: string;
+  about: string;
+};
+
+const HeroSection = ({ name, about }: Props) => {
   const router = useRouter();
 
   const scrollToServices = () => {
@@ -18,12 +23,11 @@ const HeroSection = () => {
     <section className="py-10 md:py-20 px-4 bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
       <div className="max-w-4xl mx-auto text-center">
         <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold text-gray-800 mb-6 leading-tight">
-          Нараа Beauty Salon-д <br />
+          {name}-д <br />
           <span className="text-rose-500">тавтай морилно уу!</span>
         </h1>
         <p className="text-md md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-          Гоо сайхныхаа төлөө хамгийн шилдэг үйлчилгээг авахын тулд онлайнаар
-          хялбархан цаг захиалаарай
+          {about}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button

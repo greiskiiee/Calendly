@@ -1,7 +1,11 @@
 import { Instagram, MapPin, Phone } from "lucide-react";
-import React from "react";
+import React, { useContext } from "react";
+import { CompanyContext } from "./contexts/CompanyContext";
 
 const ContactSection = () => {
+  const { company } = useContext(CompanyContext);
+  console.log(company, "company");
+
   return (
     <section className="py-10 md:py-16 px-4 bg-white/50">
       <div className="max-w-4xl mx-auto">
