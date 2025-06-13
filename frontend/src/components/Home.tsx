@@ -1,4 +1,5 @@
 "use client";
+
 import { MainAreaComponent } from "../components/MainArea";
 import { HeaderComponent } from "../components/Header";
 import { SalonCartComponent } from "@/components/SalonCard";
