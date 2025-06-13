@@ -1,11 +1,12 @@
+// app/layout.tsx (Server Component)
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/Footer";
-import { CompanyProvider } from "@/components/contexts/CompanyProvider";
-import { useContext, useState } from "react";
-import { CompanyContext } from "@/components/contexts/CompanyContext";
 import { cookies } from "next/headers";
-import { jwt } from "zod/v4";
+import jwt from "jsonwebtoken";
+import { CompanyProvider } from "@/components/contexts/CompanyProvider";
+import { Company } from "@/components/contexts/CompanyContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,10 +20,12 @@ const geistMono = Geist_Mono({
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  const [company, setCompany] = useState({
+}) {
+  const cookieStore = cookies();
+
+  let initialCompany: Company = {
     companyName: "",
     logo: "",
     email: "",
@@ -33,23 +36,30 @@ export default function RootLayout({
     category: "",
     schedule: {},
     socialUrls: [],
-  });
-  const cookieStore = cookies();
-
-  const fetchUser = async () => {
-    const token = (await cookieStore).get("token")?.value;
-
-    jwt.verify(token, process.env.SECRET_KEY);
   };
+
+  const fetchCompany = async () => {
+    const token = (await cookieStore).get("token")?.value;
+    if (token) {
+      try {
+        const decoded = jwt.verify(token, process.env.SECRET_KEY!) as Company;
+        initialCompany = decoded;
+      } catch (err) {
+        console.error("Invalid or expired token");
+      }
+    }
+  };
+
+  fetchCompany();
 
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <div className="antialiased mx-auto">
-          <CompanyContext.Provider value={{ company, setCompany }}>
+          <CompanyProvider initialCompany={initialCompany}>
             {children}
             <Footer />
-          </CompanyContext.Provider>
+          </CompanyProvider>
         </div>
       </body>
     </html>

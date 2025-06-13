@@ -1,11 +1,18 @@
 import { Instagram, MapPin, Phone } from "lucide-react";
-import React, { useContext } from "react";
-import { CompanyContext } from "./contexts/CompanyContext";
+import React from "react";
 
-const ContactSection = () => {
-  const { company } = useContext(CompanyContext);
-  console.log(company, "company");
+interface SocialUrl {
+  url: string;
+  urlName: string;
+}
 
+type Contacts = {
+  phone: string;
+  address: string;
+  socials: SocialUrl[];
+};
+
+const ContactSection = ({ phone, address, socials }: Contacts) => {
   return (
     <section className="py-10 md:py-16 px-4 bg-white/50">
       <div className="max-w-4xl mx-auto">
@@ -19,7 +26,7 @@ const ContactSection = () => {
             </div>
             <div className="flex flex-col justify-center items-start md:items-center md:gap-3">
               <h3 className="font-semibold text-gray-800">Утас</h3>
-              <p className="text-gray-600">+976 9911-2233</p>
+              <p className="text-gray-600">+976 {phone}</p>
             </div>
           </div>
           <div className="w-fit flex justify-start items-start pl-4 gap-5 md:flex-col md:items-center md:pl-0 md:w-full ">
@@ -29,7 +36,7 @@ const ContactSection = () => {
             <div className="flex flex-col justify-center items-start md:items-center md:gap-3">
               <h3 className="font-semibold text-gray-800">Хаяг</h3>
               <p className="w-full text-gray-600 text-left md:text-center">
-                Сүхбаатар дүүрэг, 1-р хороо, Улаанбаатар хот
+                {address}
               </p>
             </div>
           </div>
@@ -39,7 +46,8 @@ const ContactSection = () => {
             </div>
             <div className="flex flex-col justify-center items-start md:items-center md:gap-3">
               <h3 className="font-semibold text-gray-800">Сошиал хаяг</h3>
-              <p className="text-gray-600">@naraa_beauty_salon</p>
+              {/* <p className="text-gray-600">{socials[0].urlName}</p> */}
+              <p className="text-gray-600">naraa_salon</p>
             </div>
           </div>
         </div>

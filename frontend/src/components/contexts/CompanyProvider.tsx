@@ -1,20 +1,17 @@
-'use client';
-import { useState } from 'react';
-import { Company, CompanyContext } from '@/components/contexts/CompanyContext';
+// components/contexts/CompanyProvider.tsx
+"use client";
 
-export function CompanyProvider({ children }: { children: React.ReactNode }) {
-  const [company, setCompany] = useState<Company>({
-    companyName: '',
-    logo: '',
-    email: '',
-    phoneNumber: '',
-    address: '',
-    password: '',
-    about: '',
-    category: '',
-    socialUrls: [],
-    schedule: {},
-  });
+import { useState, useEffect } from "react";
+import { CompanyContext, Company } from "./CompanyContext";
+
+export function CompanyProvider({
+  initialCompany,
+  children,
+}: {
+  initialCompany: Company;
+  children: React.ReactNode;
+}) {
+  const [company, setCompany] = useState<Company>(initialCompany);
 
   return (
     <CompanyContext.Provider value={{ company, setCompany }}>

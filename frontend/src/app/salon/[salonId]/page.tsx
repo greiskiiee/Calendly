@@ -8,17 +8,28 @@ import SalonHeader from "@/components/SalonHeader";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { log } from "console";
+
+interface SocialUrl {
+  url: string;
+  urlName: string;
+}
 
 type Salon = {
   companyName: string;
+  logo: string;
+  email: string;
+  phoneNumber: string;
+  address: string;
+  password: string;
   about: string;
+  category: string;
+  schedule: object;
+  socialUrls: SocialUrl[];
 };
 
 export default function SalonPage() {
   const param = useParams();
-  console.log(param);
-  const { salonId } = param;
+  const { salonId } = param as { salonId: string };
 
   const [salon, setSalon] = useState<Salon | null>(null);
 
@@ -49,7 +60,11 @@ export default function SalonPage() {
       <HeroSection name={salon.companyName} about={salon.about} />
       <WorkingHours />
       <ServicesSection />
-      <ContactSection />
+      <ContactSection
+        phone={salon.phoneNumber}
+        address={salon.address}
+        socials={salon.socialUrls}
+      />
     </div>
   );
 }
