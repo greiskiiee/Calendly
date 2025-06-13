@@ -6,7 +6,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -51,7 +50,7 @@ export const AdminHeader = () => {
               <Calendar className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-bold text-gray-800">
-              Захиалгын удирдлага
+              Манай байгууллага
             </span>
           </div>
 
