@@ -38,19 +38,19 @@ export default function RootLayout({
     socialUrls: [],
   };
 
-  const fetchCompany = async () => {
-    const token = (await cookieStore).get("token")?.value;
-    if (token) {
-      try {
-        const decoded = jwt.verify(token, process.env.SECRET_KEY!) as Company;
-        initialCompany = decoded;
-      } catch (err) {
-        console.error("Invalid or expired token");
-      }
-    }
-  };
+  // const fetchCompany = async () => {
+  //   const token = (await cookieStore).get("token")?.value;
+  //   if (token) {
+  //     try {
+  //       const decoded = jwt.verify(token, process.env.SECRET_KEY!) as Company;
+  //       initialCompany = decoded;
+  //     } catch (err) {
+  //       console.error("Invalid or expired token");
+  //     }
+  //   }
+  // };
 
-  fetchCompany();
+  // fetchCompany();
 
   return (
     <html lang="en">

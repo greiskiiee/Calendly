@@ -55,7 +55,7 @@ const formSchema = z.object({
 export const Step2 = ({ onContinue }: Props) => {
   const router = useRouter();
   const { company, setCompany } = useContext(CompanyContext);
-  console.log(company, "comp");
+  // console.log(company, "comp");
 
   const [formData, setFormData] = useState<FormData>({
     address: "",
@@ -93,8 +93,9 @@ export const Step2 = ({ onContinue }: Props) => {
       setCompany(updatedCompany);
       console.log("Submitted values:", updatedCompany);
       await axios.post(
-        `http://localhost:8000/auth/signupCompany `,
-        updatedCompany
+        `${process.env.NEXT_PUBLIC_BACKEND_URI}/auth/signupCompany `,
+        updatedCompany,
+        { withCredentials: true }
       );
       router.push("/login");
     } catch (error) {
