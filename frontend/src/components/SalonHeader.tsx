@@ -5,7 +5,11 @@ import { ArrowLeft, Clock } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 
-const SalonHeader = () => {
+type Name = {
+  name: string;
+};
+
+const SalonHeader = ({ name }: Name) => {
   const router = useRouter();
   return (
     <header className="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-50">
@@ -22,9 +26,7 @@ const SalonHeader = () => {
             {/* <div className="w-8 h-8 bg-rose-500 rounded-full flex items-center justify-center">
               <Clock className="w-5 h-5 text-white" />
             </div> */}
-            <span className="text-md font-bold text-gray-800">
-              Нараа Beauty Salon
-            </span>
+            <span className="text-md font-bold text-gray-800">{name}</span>
           </div>
         </div>
 

@@ -1,11 +1,11 @@
-'use client';
+"use client";
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,21 +13,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import { Eye, EyeOff } from 'lucide-react';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { Eye, EyeOff } from "lucide-react";
 
 const formSchema = z.object({
-  email: z.string().email({ message: 'Зөв имэйл хаяг оруулна уу' }),
+  email: z.string().email({ message: "Зөв имэйл хаяг оруулна уу" }),
   password: z
     .string()
-    .min(8, { message: 'Нууц үг 8-аас их тэмдэгттэй байх ёстой' }),
+    .min(8, { message: "Нууц үг 8-аас их тэмдэгттэй байх ёстой" }),
 });
 
 const SalonLogin = () => {
@@ -38,8 +38,8 @@ const SalonLogin = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
 
@@ -54,16 +54,14 @@ const SalonLogin = () => {
         }
       );
 
-      localStorage.setItem('token', response.data.token);
-      console.log('boljiin goy bn');
+      // localStorage.setItem('token', response.data.token);
+      console.log("boljiin goy bn");
 
-      router.push('/admin');
+      router.push("/admin");
     } catch (error) {
-
       console.error("Login error:", error);
       form.setError("root", {
         message: "Нэвтрэхэд алдаа гарлаа. Имэйл эсвэл нууц үгээ шалгана уу.",
-
       });
     } finally {
       setIsLoading(false);
@@ -127,7 +125,7 @@ const SalonLogin = () => {
                       <div className="relative">
                         <Input
                           {...field}
-                          type={showPassword ? 'text' : 'password'}
+                          type={showPassword ? "text" : "password"}
                           className="w-full py-1 px-4 pr-10 rounded-md bg-white"
                           placeholder="Энд нууц үг оруулна уу"
                         />
@@ -154,7 +152,7 @@ const SalonLogin = () => {
                 type="submit"
                 disabled={isLoading}
               >
-                {isLoading ? 'Нэвтэрч байна...' : 'Нэвтрэх'}
+                {isLoading ? "Нэвтэрч байна..." : "Нэвтрэх"}
               </Button>
             </form>
           </Form>

@@ -1,9 +1,29 @@
+"use client";
 import { MainAreaComponent } from "../components/MainArea";
 import { HeaderComponent } from "../components/Header";
-import { ServiceCartComponent } from "@/components/ServiceCard";
 import { SalonCartComponent } from "@/components/SalonCard";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Home() {
+  const [salons, setSalons] = useState([]);
+
+  const fetchSalons = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URI}/company/allCompanies`
+      );
+      setSalons(res.data.companies);
+
+      console.log(res.data.companies);
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSalons();
+  }, []);
   return (
     <div className="flex flex-col gap-8 pb-16">
       <HeaderComponent />
@@ -13,7 +33,9 @@ export default function Home() {
       </div>
 
       <div className="flex flex-wrap max-w-6xl mx-auto gap-8">
-        <SalonCartComponent></SalonCartComponent>
+        {salons.map((salon, id) => {
+          return <SalonCartComponent key={id} salon={salon} />;
+        })}
       </div>
     </div>
   );

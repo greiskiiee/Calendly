@@ -34,8 +34,8 @@ export const CompanyContext = createContext<CompanyContextType>({
     password: "",
     about: "",
     category: "",
-    socialUrls: [],
     schedule: {},
+    socialUrls: [],
   },
   setCompany: () => {},
 });
