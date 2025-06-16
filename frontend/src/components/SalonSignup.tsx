@@ -157,7 +157,7 @@ const SalonSignUp = () => {
   };
 
   return (
-    <div className="min-h-[800px] bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-100 px-4 py-16">
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-100 px-4 py-16">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8 md:visible invisible">
           <h1 className="text-[26px] md:text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
