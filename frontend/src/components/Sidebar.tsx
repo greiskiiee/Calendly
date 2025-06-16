@@ -14,27 +14,22 @@ import {
 // Menu items.
 const items = [
   {
-    title: "Home",
-    url: "#",
+    title: "Нүүр",
+    url: "/admin",
     icon: Home,
   },
   {
-    title: "Inbox",
+    title: "Ирсэн",
     url: "#",
     icon: Inbox,
   },
   {
-    title: "Calendar",
+    title: "Календар",
     url: "#",
     icon: Calendar,
   },
   {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
+    title: "Профайл засах",
     url: "#",
     icon: Settings,
   },
@@ -45,7 +40,7 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel>Цэс</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
