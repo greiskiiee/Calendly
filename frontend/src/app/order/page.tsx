@@ -1,5 +1,5 @@
 "use client";
-import { ProfileForm } from "@/components";
+import { ProfileForm } from "@/components/ProfileForm";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
