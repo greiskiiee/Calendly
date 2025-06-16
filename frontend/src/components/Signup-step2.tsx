@@ -208,9 +208,9 @@ export const Step2 = ({ onContinue }: Props) => {
           control={form.control}
           name="socialUrls"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="w-full">
               <FormLabel>Cошиал хаяг</FormLabel>
-              <FormControl>
+              <FormControl className="w-full">
                 <SocialUrlInput
                   socialUrls={field.value}
                   onChange={(urls) => form.setValue("socialUrls", urls)}
