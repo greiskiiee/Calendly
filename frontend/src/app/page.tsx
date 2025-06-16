@@ -1,3 +1,4 @@
+"use client";
 import { Footer } from "@/components/Footer";
 import { HomeComponent } from "@/components/Home";
 

@@ -1,9 +1,7 @@
 // app/layout.tsx (Server Component)
-
+"use client";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
 import { CompanyProvider } from "@/components/contexts/CompanyProvider";
 import { Company } from "@/components/contexts/CompanyContext";
 import { Footer } from "@/components/Footer";
@@ -23,8 +21,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const cookieStore = cookies();
-
   let initialCompany: Company = {
     companyName: "",
     logo: "",
