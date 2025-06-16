@@ -1,6 +1,6 @@
-'use client';
-import React, { useContext, useState } from 'react';
-import { Button } from '@/components/ui/button';
+"use client";
+import React, { useContext, useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -8,17 +8,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Textarea } from './ui/textarea';
-import SocialUrlInput from './SocialUrlInput';
-import { Toggle } from './ui/toggle';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import { CompanyContext } from './contexts/CompanyContext';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Textarea } from "./ui/textarea";
+import SocialUrlInput from "./SocialUrlInput";
+import { Toggle } from "./ui/toggle";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { CompanyContext } from "./contexts/CompanyContext";
 
 type Props = {
   onContinue: () => void;
@@ -36,7 +36,7 @@ interface FormData {
   schedule: object;
   socialUrls: SocialUrl[];
 }
-const week = ['Даваа', 'Мягмар', 'Лхагва', 'Пүрэв', 'Баасан', 'Бямба', 'Ням'];
+const week = ["Даваа", "Мягмар", "Лхагва", "Пүрэв", "Баасан", "Бямба", "Ням"];
 
 const socialUrlSchema = z.object({
   url: z.string().url(),
@@ -44,10 +44,10 @@ const socialUrlSchema = z.object({
 });
 
 const formSchema = z.object({
-  address: z.string().min(10, { message: 'Хаягаа бүтэн оруулна уу' }),
+  address: z.string().min(10, { message: "Хаягаа бүтэн оруулна уу" }),
   about: z.string(),
   socialUrls: z.array(socialUrlSchema),
-  workdays: z.array(z.string()).min(1, 'Ядаж нэг ажлын өдөр сонгоно уу'),
+  workdays: z.array(z.string()).min(1, "Ядаж нэг ажлын өдөр сонгоно уу"),
   open: z.string(),
   close: z.string(),
 });
@@ -55,25 +55,16 @@ const formSchema = z.object({
 export const Step2 = ({ onContinue }: Props) => {
   const router = useRouter();
   const { company, setCompany } = useContext(CompanyContext);
-  // console.log(company, "comp");
-
-  const [formData, setFormData] = useState<FormData>({
-    address: '',
-    about: '',
-    category: '',
-    socialUrls: [],
-    schedule: {},
-  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      address: '',
-      about: '',
+      address: "",
+      about: "",
       socialUrls: [],
       workdays: [],
-      open: '',
-      close: '',
+      open: "",
+      close: "",
     },
   });
 
@@ -84,27 +75,25 @@ export const Step2 = ({ onContinue }: Props) => {
         address: values.address,
         about: values.about,
         socialUrls: values.socialUrls,
-        schedule: {
-          day: values.workdays,
-          openingTime: values.open,
-          closingTime: values.close,
-        },
+        schedule: [
+          {
+            day: values.workdays,
+            openingTime: values.open,
+            closingTime: values.close,
+          },
+        ],
       };
       setCompany(updatedCompany);
-      console.log('Submitted values:', updatedCompany);
+      console.log("Submitted values:", updatedCompany);
       await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URI}/auth/signupCompany`,
         updatedCompany,
         { withCredentials: true }
       );
-      router.push('/login');
+      router.push("/login");
     } catch (error) {
-      console.error('Submission error:', error);
+      console.error("Submission error:", error);
     }
-  };
-
-  const handleSocialUrlsChange = (socialUrls: SocialUrl[]) => {
-    setFormData((prev) => ({ ...prev, socialUrls }));
   };
 
   return (
@@ -161,10 +150,10 @@ export const Step2 = ({ onContinue }: Props) => {
                         key={day}
                         onPressedChange={() =>
                           form.setValue(
-                            'workdays',
-                            form.watch('workdays').includes(day)
-                              ? form.watch('workdays').filter((d) => d !== day)
-                              : [...form.watch('workdays'), day]
+                            "workdays",
+                            form.watch("workdays").includes(day)
+                              ? form.watch("workdays").filter((d) => d !== day)
+                              : [...form.watch("workdays"), day]
                           )
                         }
                         className="border-1"
@@ -223,9 +212,8 @@ export const Step2 = ({ onContinue }: Props) => {
               <FormLabel>Cошиал хаяг</FormLabel>
               <FormControl>
                 <SocialUrlInput
-                  {...field}
-                  socialUrls={formData.socialUrls}
-                  onChange={handleSocialUrlsChange}
+                  socialUrls={field.value}
+                  onChange={(urls) => form.setValue("socialUrls", urls)}
                 />
               </FormControl>
 
