@@ -11,10 +11,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "https://calendly-eight-blush.vercel.app",
-    ],
+    origin: ["http://localhost:3000", "https://calendly-ivory.vercel.app"],
     credentials: true,
   })
 );
