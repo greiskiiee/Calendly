@@ -69,7 +69,9 @@ const companySchema = new mongoose.Schema({
     type: [TimeTableSchema],
     required: true,
   },
-  socialUrls: [socialmediaUrl],
+  socialUrls: {
+    type: [socialmediaUrl],
+  },
 });
 
 export const companyModel = mongoose.model("Company", companySchema);

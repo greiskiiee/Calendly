@@ -57,10 +57,10 @@ const SocialUrlInput: React.FC<SocialUrlInputProps> = ({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="w-full space-y-4">
       {/* Add new social URL */}
-      <div className="border border-gray-200 rounded-lg p-4 bg-gray-50">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div className="w-full border border-gray-200 rounded-lg p-4 bg-gray-50">
+        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-3">
           <div>
             <Label
               htmlFor="platform"
@@ -110,7 +110,7 @@ const SocialUrlInput: React.FC<SocialUrlInputProps> = ({
 
       {/* Display added social URLs */}
       {socialUrls.length > 0 && (
-        <div className="space-y-2">
+        <div className="w-full space-y-2">
           <Label className="text-sm font-medium text-gray-700">
             Бүртгүүлсэн хаягууд:
           </Label>
@@ -125,7 +125,7 @@ const SocialUrlInput: React.FC<SocialUrlInputProps> = ({
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                       {social.urlName}
                     </span>
-                    <span className="text-sm text-gray-600 truncate">
+                    <span className="text-sm text-gray-600 truncate max-w-[200px] block overflow-hidden whitespace-nowrap">
                       {social.url}
                     </span>
                   </div>
