@@ -2,9 +2,9 @@
 "use client";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Footer } from "@/components/Footer";
 import { CompanyProvider } from "@/components/contexts/CompanyProvider";
 import { Company } from "@/components/contexts/CompanyContext";
+import { Footer } from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,10 +51,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <div className="antialiased mx-auto">
+        <div className="antialiased mx-auto flex flex-col min-h-screen">
           <CompanyProvider initialCompany={initialCompany}>
-            {children}
-            <Footer />
+            <main className="flex-grow">{children}</main>
+            {/* <Footer /> */}
           </CompanyProvider>
         </div>
       </body>

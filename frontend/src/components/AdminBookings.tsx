@@ -151,12 +151,12 @@ const AdminBookings = () => {
     .reduce((sum, b) => sum + parseInt(b.price.replace(/[₮,]/g, "")), 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 pb-16">
+    <div className="min-h-screen w-full bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 ">
       <AdminHeader />
 
       {/* Stats Cards */}
-      <section className="py-8 px-4">
-        <div className="max-w-7xl mx-auto">
+      <section className="w-full py-8 px-4">
+        <div className="mx-auto">
           <div className="grid md:grid-cols-4 gap-6 mb-8">
             <Card>
               <CardContent className="p-6">
