@@ -20,6 +20,13 @@ type Salons = {
 export const SalonCartComponent = ({ salon }: Salons) => {
   const router = useRouter();
 
+  const truncateText = (text: string, maxLength: number) => {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + "...";
+    }
+    return text;
+  };
+
   return (
     <div className=" h-fit lg:w-[560px] lg:h-fit  border border-gray-200 rounded-2xl hover:shadow-2xl">
       <div className="relative w-full h-[140px] md:h-[200px]  overflow-hidden group">
@@ -39,19 +46,21 @@ export const SalonCartComponent = ({ salon }: Salons) => {
             <h3 className="font-semibold tracking-tight text-xl text-gray-800">
               {salon?.name}
             </h3>
-            <p className="text-sm">{salon?.about}</p>
+            <p className="text-sm truncate max-w-full" title={salon?.about}>
+              {truncateText(salon?.about || "", 100)}
+            </p>
           </div>
           <div className="flex flex-col gap-3">
             <div className="flex items-center">
-              <MapPin size={16} className="mr-2" />
-              <p>{salon?.address}г</p>
+              <MapPin size={16} className="mr-2 flex-shrink-0" />
+              <p>{truncateText(salon?.address || "", 50)}</p>
             </div>
             <div className="flex items-center">
-              <Users size={16} className="mr-2" />
-              <p>203 үнэлгээ</p>
+              <Users size={16} className="mr-2 flex-shrink-0" />
+              <p>203 захиалга</p>
             </div>
             <div className="flex items-center">
-              <Clock size={16} className="mr-2" />
+              <Clock size={16} className="mr-2 flex-shrink-0" />
               <p>09:00 - 19:00</p>
             </div>
           </div>
