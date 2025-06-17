@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 type Salon = {
   _id: string;
-  name: string;
+  companyName: string;
   about: string;
   address: string;
   logo: string;
@@ -44,7 +44,7 @@ export const SalonCartComponent = ({ salon }: Salons) => {
         <div className="flex flex-col gap-4">
           <div className="flex flex-col">
             <h3 className="font-semibold tracking-tight text-xl text-gray-800">
-              {salon?.name}
+              {salon?.companyName}
             </h3>
             <p className="text-sm truncate max-w-full" title={salon?.about}>
               {truncateText(salon?.about || "", 100)}
