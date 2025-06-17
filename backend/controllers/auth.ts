@@ -14,14 +14,14 @@ export const loginCompany = async (req: Request, res: Response) => {
     console.log(company);
     if (company) {
       const isMatch = await bcrypt.compare(password, company.password);
-      console.log(isMatch, "isMatch");
+      // console.log(isMatch, "isMatch");
       if (!isMatch) {
         return res
           .status(404)
           .send({ success: false, message: "company pass or email incorrect" });
       }
 
-      console.log(company, "company");
+      console.log(company._id.toString(), "company");
       const token = jwt.sign(
         {
           id: company._id.toString(),
