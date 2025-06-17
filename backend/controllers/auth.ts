@@ -22,10 +22,25 @@ export const loginCompany = async (req: Request, res: Response) => {
       }
 
       console.log(company, "company");
-      const token = jwt.sign({ ...company }, secret_key, {
-        // 1sec * 60 * 60 = 1 tsag
-        expiresIn: 1000 * 60 * 60 * 24,
-      });
+      const token = jwt.sign(
+        {
+          id: company._id.toString(),
+          companyName: company.companyName,
+          email: company.email,
+          phoneNumber: company.phoneNumber,
+          address: company.address,
+          logo: company.logo,
+          about: company.about,
+          category: company.category,
+          schedule: company.schedule,
+          socialUrls: company.socialUrls,
+        },
+        secret_key,
+        {
+          expiresIn: "1d",
+        }
+      );
+
       // console.log('1 working token...', token);
       res.cookie("token", token, {
         httpOnly: true,
