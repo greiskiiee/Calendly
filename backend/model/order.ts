@@ -1,10 +1,10 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose';
 
 const orderSchema = new mongoose.Schema({
   clientName: {
     type: String,
     required: true,
-    default: "",
+    default: '',
   },
   clientPhone: {
     type: Number,
@@ -20,12 +20,12 @@ const orderSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["Pending", "Canceled", "Approved"],
-    default: "Pending",
+    enum: ['Pending', 'Canceled', 'Approved'],
+    default: 'Pending',
   },
-  serviceOrder: {
+  serviceId: {
     type: Schema.Types.ObjectId,
-    ref: "Service",
+    ref: 'Service',
   },
   orderCreatedAt: {
     type: Date,
@@ -33,4 +33,4 @@ const orderSchema = new mongoose.Schema({
   },
 });
 
-export const orderModel = mongoose.model("Order", orderSchema);
+export const orderModel = mongoose.model('Order', orderSchema);

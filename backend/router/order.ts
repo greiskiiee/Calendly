@@ -1,17 +1,17 @@
-import express from "express";
+import express from 'express';
 import {
   createOrder,
-  getOrders,
   getOrderById,
   updateOrderStatus,
   deleteOrder,
-} from "../controllers/order";
+  getOrdersByServiceId,
+} from '../controllers/order';
 
 export const orderRouter = express.Router();
 
 orderRouter
-  .post("/", createOrder as any)
-  .get("/", getOrders as any)
-  .get("/:id", getOrderById as any)
-  .put("/:id/status", updateOrderStatus as any)
-  .delete("/:id", deleteOrder as any);
+  .post('/', createOrder as any)
+  .get('/byservice/:serviceIdd', getOrdersByServiceId as any)
+  .get('/:id', getOrderById as any)
+  .put('/update/:id', updateOrderStatus as any)
+  .delete('/:id', deleteOrder as any);
