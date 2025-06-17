@@ -4,12 +4,12 @@ import { Search, Star } from "lucide-react";
 export const MainAreaComponent = () => {
   return (
     <div className="px-4 py-16">
-      <div className="flex flex-col max-w-4xl mx-auto text-center gap-5 mt-[-60px] md:mt-0">
+      <div className="flex flex-col max-w-4xl mx-auto text-center gap-5 mt-[-50px] md:mt-0">
         <h1 className="text-2xl md:text-3xl lg:text-7xl font-bold">
           Таны <span className=" text-purple-600">гоо сайхны</span>{" "}
           <span className="text-pink-500">хэрэгцээнд</span> зориулсан
         </h1>
-        <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+        <p className=" text-lg md:text-xl text-gray-600 md:mb-8 max-w-2xl mx-auto">
           Улаанбаатарын шилдэг гоо сайхны салон, спа төвүүдээс онлайнаар
           хялбархан цаг захиалаарай
         </p>

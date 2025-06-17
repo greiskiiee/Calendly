@@ -28,7 +28,7 @@ export const SalonCartComponent = ({ salon }: Salons) => {
   };
 
   return (
-    <div className=" h-fit lg:w-[560px] lg:h-fit  border border-gray-200 rounded-2xl hover:shadow-2xl">
+    <div className="w-[420px] h-fit lg:w-[560px] lg:h-fit  border border-gray-200 rounded-2xl hover:shadow-2xl">
       <div className="relative w-full h-[140px] md:h-[200px]  overflow-hidden group">
         <Image
           fill

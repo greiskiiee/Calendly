@@ -33,7 +33,7 @@ export const HomeComponent = () => {
         Танд тохирсон салоноо сонгоорой
       </div>
 
-      <div className="flex flex-wrap max-w-6xl mx-auto gap-8">
+      <div className="flex flex-wrap justify-center items-start md:max-w-6xl mx-auto gap-8">
         {salons.map((salon, id) => {
           return <SalonCartComponent key={id} salon={salon} />;
         })}
