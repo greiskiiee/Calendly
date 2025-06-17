@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { Clock } from "lucide-react";
+import { ProfileForm } from "./ProfileForm";
 
 interface ServiceCartProps {
   title: string;
@@ -43,12 +44,13 @@ export const ServiceCartComponent = ({
 
           <p className="text-gray-600 text-sm">{details}</p>
 
-          <button
+          {/* <button
             onClick={() => router.push("/order")}
             className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-10 px-4 py-2 w-full bg-rose-500 hover:bg-rose-600 text-white"
           >
             Захиалах
-          </button>
+          </button> */}
+          <ProfileForm />
         </div>
       </div>
     </div>
