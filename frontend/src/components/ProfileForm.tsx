@@ -80,7 +80,7 @@ export function ProfileForm() {
     console.log(values);
   }
   return (
-    <div className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-10 px-4 py-2 w-full bg-rose-500 hover:bg-rose-600 text-white">
+    <div className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-10 px-4 py-2 w-full bg-[#f6339a] hover:bg-rose-600 text-white">
       <Dialog>
         <DialogTrigger>Захиалах</DialogTrigger>
         <DialogContent className="sm:max-w-md min-w-[600px]">
@@ -184,7 +184,7 @@ export function ProfileForm() {
               />
 
               <Button
-                className="flex w-full bg-red-400 hover:bg-red-600"
+                className="flex w-full bg-pink-400 hover:bg-pink-600"
                 type="submit"
               >
                 Захиалах

@@ -21,8 +21,8 @@ const ContactSection = ({ phone, address, socials }: Contacts) => {
         </h2>
         <div className="grid md:grid-cols-3 gap-8 text-center md:justify-center">
           <div className="w-fit flex justify-start items-start pl-4 gap-5 md:flex-col md:items-center md:pl-0 md:w-full ">
-            <div className="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center ">
-              <Phone color="red" />
+            <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center ">
+              <Phone color="#9710fa" />
             </div>
             <div className="flex flex-col justify-center items-start md:items-center md:gap-3">
               <h3 className="font-semibold text-gray-800">Утас</h3>
@@ -30,8 +30,8 @@ const ContactSection = ({ phone, address, socials }: Contacts) => {
             </div>
           </div>
           <div className="w-fit flex justify-start items-start pl-4 gap-5 md:flex-col md:items-center md:pl-0 md:w-full ">
-            <div className="w-[48px] h-[48px] bg-rose-100 rounded-full flex items-center justify-center ">
-              <MapPin color="red" size={24} />
+            <div className="w-[48px] h-[48px] bg-purple-100 rounded-full flex items-center justify-center ">
+              <MapPin color="#9710fa" size={24} />
             </div>
             <div className="flex flex-col justify-center items-start md:items-center md:gap-3">
               <h3 className="font-semibold text-gray-800">Хаяг</h3>
@@ -41,8 +41,8 @@ const ContactSection = ({ phone, address, socials }: Contacts) => {
             </div>
           </div>
           <div className="w-fit flex justify-start items-start pl-4 gap-5 md:flex-col md:items-center md:pl-0 md:w-full ">
-            <div className="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center ">
-              <Instagram color="red" />
+            <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center ">
+              <Instagram color="#9710fa" />
             </div>
             <div className="flex flex-col justify-center items-start md:items-center md:gap-3">
               <h3 className="font-semibold text-gray-800">Сошиал хаяг</h3>

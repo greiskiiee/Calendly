@@ -33,7 +33,7 @@ export const ServiceCartComponent = ({
           </div>
 
           <div className="flex justify-between items-center">
-            <span className="text-md md:text-2xl font-bold text-rose-500">
+            <span className="text-md md:text-2xl font-bold text-pink-500">
               {price}
             </span>
             <span className="text-sm text-gray-500 flex items-center">
