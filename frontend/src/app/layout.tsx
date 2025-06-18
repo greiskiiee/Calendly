@@ -36,10 +36,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const cookieStore = cookies();
-  const token = (await cookieStore).get("token")?.value;
 
+  const token = (await cookieStore).get("token")?.value;
   let initialCompany: Company = {
-    id: "",
     companyName: "",
     logo: "",
     email: "",

@@ -13,6 +13,22 @@ export function CompanyProvider({
 }) {
   const [company, setCompany] = useState<Company>(initialCompany);
 
+  useEffect(() => {
+    if (!initialCompany.email) {
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/company/`, {
+        credentials: "include",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            setCompany({ ...data.company, password: "" });
+          }
+        })
+        .catch((err) => {
+          console.error("Failed to fetch company from token:", err);
+        });
+    }
+  }, []);
   return (
     <CompanyContext.Provider value={{ company, setCompany }}>
       {children}
