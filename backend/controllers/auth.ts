@@ -41,14 +41,14 @@ export const loginCompany = async (req: Request, res: Response) => {
         .send({ success: false, message: "company not found" });
     }
   } catch (error) {
-    // console.error(error, 'error');
-    // return res
-    //   .status(400)
-    //   .send({
-    //     success: false,
-    //     message: error,
-    //   })
-    //   .end();
+    console.error(error, "error");
+    return res
+      .status(400)
+      .send({
+        success: false,
+        message: error,
+      })
+      .end();
   }
 };
 
