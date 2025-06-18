@@ -1,6 +1,7 @@
-"use client";
-import { Footer } from "@/components/Footer";
-import { HomeComponent } from "@/components/Home";
+'use client';
+
+import { Footer } from '@/components/Footer';
+import { HomeComponent } from '@/components/Home';
 
 export default function Home() {
   return (

@@ -1,8 +1,9 @@
 // components/contexts/CompanyProvider.tsx
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { CompanyContext, Company } from "./CompanyContext";
+import { useState, useEffect } from 'react';
+import { CompanyContext, Company } from './CompanyContext';
+import axios from 'axios';
 
 export function CompanyProvider({
   initialCompany,
@@ -13,20 +14,22 @@ export function CompanyProvider({
 }) {
   const [company, setCompany] = useState<Company>(initialCompany);
 
+  const fetchCompany = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URI}/company/allCompanies`,
+        {
+          withCredentials: true,
+        }
+      );
+      setCompany({ ...response.data, password: '' });
+    } catch (error) {
+      console.error('Failed to fetch company from token:', error);
+    }
+  };
   useEffect(() => {
     if (!initialCompany.email) {
-      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/company/`, {
-        credentials: "include",
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.success) {
-            setCompany({ ...data.company, password: "" });
-          }
-        })
-        .catch((err) => {
-          console.error("Failed to fetch company from token:", err);
-        });
+      fetchCompany();
     }
   }, []);
   return (
