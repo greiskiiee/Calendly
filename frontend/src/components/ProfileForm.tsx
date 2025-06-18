@@ -22,7 +22,12 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { DropDownMenu } from './DropDownMenu';
+
+import { date, number } from 'zod/v4';
 import { Textarea } from './ui/textarea';
+import { Value } from '@radix-ui/react-select';
+
+type DropDownMenuProps = {};
 
 const services = [
   {
@@ -73,10 +78,22 @@ export function ProfileForm() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
   }
+
+  const buttonClass =
+    'inline-flex items-center justify-center gap-2 w-full h-10 px-4 py-2 text-sm font-medium text-white bg-[#f6339a] hover:bg-rose-600 rounded-md ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0';
+
   return (
     <div className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-10 px-4 py-2 w-full bg-[#f6339a] hover:bg-rose-600 text-white">
       <Dialog>
-        <DialogTrigger>Захиалах</DialogTrigger>
+        {/* <DialogTrigger>Захиалах</DialogTrigger> */}
+        <DialogTrigger asChild>
+          <Button
+            className={buttonClass}
+            type="button" // DialogTrigger дээр заавал submit биш
+          >
+            Захиалах
+          </Button>
+        </DialogTrigger>
         <DialogContent className="sm:max-w-md min-w-[600px]">
           <DialogHeader>
             <DialogTitle>Цаг захиалах</DialogTitle>
@@ -129,6 +146,7 @@ export function ProfileForm() {
                       <DropDownMenu
                         defaultValue="Үйлчилгээгээ сонгоно уу?"
                         data={services}
+                        // onValueChange={field.onChange}
                       />
                     </FormControl>
                     <FormMessage />
@@ -170,19 +188,15 @@ export function ProfileForm() {
                   <FormItem>
                     <FormLabel>Нэмэлт тэмдэглэл </FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Та шаардлагатай бол нэмэлт мэдээлэл оруулна уу " />
+                      <Textarea
+                        placeholder="Та шаардлагатай бол нэмэлт мэдээлэл оруулна уу "
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
-              <Button
-                className="flex w-full bg-pink-400 hover:bg-pink-600"
-                type="submit"
-              >
-                Захиалах
-              </Button>
             </form>
           </Form>
         </DialogContent>
