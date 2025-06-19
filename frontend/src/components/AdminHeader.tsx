@@ -1,6 +1,6 @@
 "use client";
 import { Calendar } from "lucide-react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -14,16 +14,20 @@ import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { Input } from "./ui/input";
 import { toast } from "@/hooks/use-toast";
+import axios from "axios";
+import { CompanyContext } from "./contexts/CompanyContext";
 
 export const AdminHeader = () => {
   const [newService, setNewService] = useState({
     name: "",
-    price: "",
-    duration: "",
+    price: 0,
+    duration: 0,
     description: "",
   });
 
-  const handleAddService = () => {
+  const { company } = useContext(CompanyContext);
+
+  const handleAddService = async () => {
     if (!newService.name || !newService.price) {
       toast({
         title: "Алдаа",
@@ -33,13 +37,25 @@ export const AdminHeader = () => {
       return;
     }
 
-    toast({
-      title: "Үйлчилгээ нэмэгдлээ",
-      description: `${newService.name} үйлчилгээ амжилттай нэмэгдлээ`,
-    });
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URI}/service`, {
+        companyId: "",
+        serviceName: newService.name,
+        servicePrice: newService.price,
+        serviceInfo: newService.description,
+        serviceTime: newService.duration,
+      });
 
-    setNewService({ name: "", price: "", duration: "", description: "" });
-    // setIsAddServiceOpen(false);
+      toast({
+        title: "Үйлчилгээ нэмэгдлээ",
+        description: `${newService.name} үйлчилгээ амжилттай нэмэгдлээ`,
+      });
+
+      setNewService({ name: "", price: 0, duration: 0, description: "" });
+      // setIsAddServiceOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <header className="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-50">
@@ -95,7 +111,7 @@ export const AdminHeader = () => {
                     onChange={(e) =>
                       setNewService((prev) => ({
                         ...prev,
-                        price: e.target.value,
+                        price: Number(e.target.value),
                       }))
                     }
                     className="col-span-3"
@@ -112,7 +128,7 @@ export const AdminHeader = () => {
                     onChange={(e) =>
                       setNewService((prev) => ({
                         ...prev,
-                        duration: e.target.value,
+                        duration: Number(e.target.value),
                       }))
                     }
                     className="col-span-3"
@@ -139,7 +155,6 @@ export const AdminHeader = () => {
               </div>
               <Button
                 className="bg-rose-500 hover:bg-rose-600"
-                type="submit"
                 onClick={handleAddService}
               >
                 Үйлчилгээ нэмэх
