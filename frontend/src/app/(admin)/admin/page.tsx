@@ -1,3 +1,4 @@
+"use client";
 import AdminBookings from "@/components/AdminBookings";
 
 export default function Admin() {
