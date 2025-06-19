@@ -43,9 +43,9 @@ export const loginCompany = async (req: Request, res: Response) => {
 
       // console.log('1 working token...', token);
       res.cookie("token", token, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "lax",
+        httpOnly: false,
+        secure: true,
+        sameSite: "none",
         path: "/",
       });
       // console.log('2 working token...', token);
