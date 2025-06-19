@@ -70,11 +70,18 @@
 import { ServiceCartComponent } from './ServiceCard';
 
 type Service = {
+  // title: string;
+  // description: string;
+  // details: string;
+  // price: string;
+  // duration: string;
+  _id: string;
   title: string;
   description: string;
   details: string;
   price: string;
   duration: string;
+  serviceName: string;
 };
 
 interface ServicesSectionProps {
@@ -100,6 +107,11 @@ const ServicesSection = ({ services }: ServicesSectionProps) => {
               details={service.details}
               price={service.price}
               duration={service.duration}
+              services={services.map((s) => ({
+                _id: s._id,
+                value: s._id, // эсвэл өөр тохирох утга
+                label: s.serviceName, // эсвэл label
+              }))}
             />
           ))}
         </div>

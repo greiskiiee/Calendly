@@ -60,7 +60,18 @@ const formSchema = z.object({
   nemelt: z.string({ required_error: 'Мэдээлэл оруулна уу?' }),
 });
 
-export function ProfileForm() {
+interface ServiceItem {
+  _id: string;
+  value: string;
+  label: string;
+}
+
+interface ProfileFormProps {
+  services: ServiceItem[];
+}
+
+export function ProfileForm({ services }: ProfileFormProps) {
+  // export function ProfileForm() {
   const { push } = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

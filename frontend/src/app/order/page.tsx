@@ -1,8 +1,8 @@
-"use client";
-import { ProfileForm } from "@/components/ProfileForm";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
+'use client';
+import { ProfileForm } from '@/components/ProfileForm';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const router = useRouter();
@@ -16,8 +16,8 @@ export default function Home() {
           <ArrowLeft />
           Буцах
         </Button>
-
-        <ProfileForm />
+        {/* tsatsa commentlov */}
+        {/* <ProfileForm /> */}
       </div>
     </div>
   );

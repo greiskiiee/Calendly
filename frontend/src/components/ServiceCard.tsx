@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { Clock } from "lucide-react";
-import { ProfileForm } from "./ProfileForm";
+import { useRouter } from 'next/navigation';
+import { Clock } from 'lucide-react';
+import { ProfileForm } from './ProfileForm';
 
 interface ServiceCartProps {
   title: string;
@@ -10,6 +10,11 @@ interface ServiceCartProps {
   details: string;
   price: string;
   duration: string;
+  services: {
+    _id: string;
+    value: string;
+    label: string;
+  }[];
 }
 
 export const ServiceCartComponent = ({
@@ -18,6 +23,7 @@ export const ServiceCartComponent = ({
   details,
   price,
   duration,
+  services,
 }: ServiceCartProps) => {
   const router = useRouter();
 
@@ -50,7 +56,7 @@ export const ServiceCartComponent = ({
           >
             Захиалах
           </button> */}
-          <ProfileForm />
+          <ProfileForm services={services} />
         </div>
       </div>
     </div>
