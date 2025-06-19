@@ -28,7 +28,7 @@ export const SalonCartComponent = ({ salon }: Salons) => {
   };
 
   return (
-    <div className="w-[420px] h-fit lg:w-[560px] lg:h-fit  border border-gray-200 rounded-2xl hover:shadow-2xl">
+    <div className="w-[360px] md:w-[420px] h-fit lg:w-[560px] lg:h-fit  border border-gray-200 rounded-2xl hover:shadow-2xl">
       <div className="relative w-full h-[140px] md:h-[200px]  overflow-hidden group">
         <Image
           fill
@@ -67,20 +67,20 @@ export const SalonCartComponent = ({ salon }: Salons) => {
           </div>
           <Separator />
           <div className="flex justify-between items-center">
-            <div>
+            <div className="h-fit hidden md:block">
               <p className="mb-2 text-gray-800">Үйлчилгээ:</p>
               <div className="flex gap-2 mb-4">
-                <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm">
+                <span className="text-[10px] bg-purple-100 text-purple-700 px-3 py-1 rounded-full md:text-sm">
                   Үс засварлах
                 </span>
-                <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm">
+                <span className="text-[10px] bg-purple-100 text-purple-700 px-3 py-1 rounded-full md:text-sm">
                   Өнгө оруулах
                 </span>
               </div>
             </div>
             <button
               onClick={() => router.push(`/salon/${salon?._id}`)}
-              className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:cursor-pointer hover:bg-pink-600"
+              className="w-full md:w-fit bg-purple-600 text-white px-4 py-2 rounded-lg hover:cursor-pointer hover:bg-pink-600"
             >
               Дэлгэрэнгүй
             </button>
