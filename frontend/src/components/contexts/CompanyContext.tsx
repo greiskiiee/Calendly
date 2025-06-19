@@ -7,7 +7,6 @@ interface SocialUrl {
 }
 
 export interface Company {
-  id: string;
   companyName: string;
   logo: string;
   email: string;
@@ -27,7 +26,6 @@ interface CompanyContextType {
 
 export const CompanyContext = createContext<CompanyContextType>({
   company: {
-    id: "",
     companyName: "",
     logo: "",
     email: "",

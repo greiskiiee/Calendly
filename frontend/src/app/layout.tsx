@@ -21,7 +21,6 @@ export default async function RootLayout({
   const token = (await cookieStore).get("token")?.value;
 
   let initialCompany: Company = {
-    id: "",
     companyName: "",
     logo: "",
     email: "",
