@@ -48,7 +48,7 @@ export const loginCompany = async (req: Request, res: Response) => {
         path: "/",
         maxAge: 24 * 60 * 60 * 1000, // 1 day
       });
-      return res.status(200).send({ success: true, token });
+      return res.redirect("/admin?justLoggedIn=true");
     } else {
       return res
         .status(404)
