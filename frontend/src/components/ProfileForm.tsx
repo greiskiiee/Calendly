@@ -23,19 +23,23 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { DropDownMenu } from "./DropDownMenu";
 import { date, number } from "zod/v4";
 import { Textarea } from "./ui/textarea";
 import { Value } from "@radix-ui/react-select";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import DropDownMenu from "./DropDownMenu";
 
 type DropDownMenuProps = {};
 
 const services = [
   {
+    _id: "123",
     value: "makeup",
     label: "Нүүр будалт",
   },
   {
+    _id: "1234",
     value: "manicure",
     label: "hums",
   },
@@ -64,6 +68,7 @@ const formSchema = z.object({
 });
 
 export function ProfileForm() {
+  const { push } = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -76,9 +81,25 @@ export function ProfileForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      // const response = await axios.post(
+      //   `${process.env.NEXT_PUBLIC_BACKEND_URI}/order` as string,
+      //   {
+      //     clientName: values.username,
+      //     clientPhone: values.phonenumber,
+      //     selectedDate: values.date,
+      //     selectedTime: values.time,
+      //     serviceOrder: values.service,
+      //   }
+      // );
+      // console.log(response);
+
+      push(`/complete/1`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-10 px-4 py-2 w-full bg-[#f6339a] hover:bg-rose-600 text-white">
       <Dialog>
@@ -133,8 +154,11 @@ export function ProfileForm() {
                     <FormLabel>Үйлчилгээ сонгох</FormLabel>
                     <FormControl>
                       <DropDownMenu
-                        defaultValue="Үйлчилгээгээ сонгоно уу?"
                         data={services}
+                        value={field.value}
+                        onChange={field.onChange}
+                        getValue={(item) => item._id!} // use _id as value
+                        placeholder="Үйлчилгээгээ сонгоно уу?"
                       />
                     </FormControl>
                     <FormMessage />
@@ -162,7 +186,12 @@ export function ProfileForm() {
                     <FormItem className="w-full">
                       <FormLabel>Цаг* </FormLabel>
                       <FormControl>
-                        <DropDownMenu defaultValue="" data={time} />
+                        <DropDownMenu
+                          data={time}
+                          value={field.value}
+                          onChange={field.onChange}
+                          placeholder="Цаг сонгоно уу"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
