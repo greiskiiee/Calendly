@@ -56,6 +56,7 @@ const SalonLogin = () => {
 
       // localStorage.setItem('token', response.data.token);
       console.log("boljiin goy bn");
+      setTimeout(() => {}, 3000);
 
       router.push("/admin");
     } catch (error) {
