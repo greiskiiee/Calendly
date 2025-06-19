@@ -30,7 +30,7 @@ import { useState } from "react";
 // Menu items except logout
 const items = [
   { title: "Нүүр", url: "/admin", icon: Home },
-  { title: "Ирсэн", url: "#", icon: Inbox },
+  { title: "Мэдэгдэл", url: "#", icon: Inbox },
   { title: "Календар", url: "#", icon: Calendar },
   { title: "Профайл засах", url: "#", icon: Settings },
 ];
@@ -41,7 +41,7 @@ export function AppSidebar() {
 
   const handleLogout = () => {
     Cookies.remove("token");
-    router.push("/login");
+    router.push("/");
   };
 
   return (
