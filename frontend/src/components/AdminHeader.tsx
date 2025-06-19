@@ -25,8 +25,8 @@ export const AdminHeader = () => {
     description: "",
   });
 
-  const { company } = useContext(CompanyContext);
-  console.log(company.id, "id");
+  // const { company } = useContext(CompanyContext);
+  // console.log(company.id, "id");
   const handleAddService = async () => {
     if (!newService.name || !newService.price) {
       toast({
@@ -39,7 +39,7 @@ export const AdminHeader = () => {
 
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URI}/service`, {
-        companyId: company.id,
+        companyId: "",
         serviceName: newService.name,
         servicePrice: newService.price,
         serviceInfo: newService.description,

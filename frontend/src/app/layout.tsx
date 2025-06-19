@@ -1,15 +1,15 @@
 // app/layout.tsx (Server Component)
-import { Geist, Geist_Mono } from 'next/font/google';
-import './globals.css';
-import { CompanyProvider } from '@/components/contexts/CompanyProvider';
-import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
-import { Company } from '@/components/contexts/CompanyContext';
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+import { CompanyProvider } from "@/components/contexts/CompanyProvider";
+import { cookies } from "next/headers";
+import jwt from "jsonwebtoken";
+import { Company } from "@/components/contexts/CompanyContext";
 
-const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
+const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
 });
 
 interface SocialUrl {
@@ -37,35 +37,35 @@ export default async function RootLayout({
 }) {
   const cookieStore = cookies();
 
-  const token = (await cookieStore).get('token')?.value;
+  // const token = (await cookieStore).get('token')?.value;
   let initialCompany: Company = {
-    companyName: '',
-    logo: '',
-    email: '',
-    phoneNumber: '',
-    address: '',
-    password: '',
-    about: '',
-    category: '',
+    companyName: "",
+    logo: "",
+    email: "",
+    phoneNumber: "",
+    address: "",
+    password: "",
+    about: "",
+    category: "",
     schedule: {},
     socialUrls: [],
   };
 
-  if (token) {
-    try {
-      const decoded = jwt.verify(
-        token,
-        process.env.SECRET_KEY!
-      ) as DecodedCompany;
-      initialCompany = {
-        ...decoded,
-        password: '',
-      };
-      console.log('Decoded company from token:', decoded);
-    } catch (err) {
-      console.error('Invalid or expired token:', err);
-    }
-  }
+  // if (token) {
+  //   try {
+  //     const decoded = jwt.verify(
+  //       token,
+  //       process.env.SECRET_KEY!
+  //     ) as DecodedCompany;
+  //     initialCompany = {
+  //       ...decoded,
+  //       password: '',
+  //     };
+  //     console.log('Decoded company from token:', decoded);
+  //   } catch (err) {
+  //     console.error('Invalid or expired token:', err);
+  //   }
+  // }
 
   return (
     <html lang="en">
