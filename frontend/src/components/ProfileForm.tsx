@@ -197,6 +197,13 @@ export function ProfileForm() {
                   </FormItem>
                 )}
               />
+
+              <Button
+                className="flex w-full bg-pink-400 hover:bg-pink-600"
+                type="submit"
+              >
+                Захиалах
+              </Button>
             </form>
           </Form>
         </DialogContent>
