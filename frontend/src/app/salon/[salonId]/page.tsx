@@ -1,17 +1,27 @@
 // src/app/salon/page.tsx
-"use client";
-import HeroSection from "@/components/HeroSection";
-import ServicesSection from "@/components/ServicesSection";
-import WorkingHours from "@/components/WorkingHours";
-import ContactSection from "@/components/ContactSection";
-import SalonHeader from "@/components/SalonHeader";
-import { useParams } from "next/navigation";
-import axios from "axios";
-import { useEffect, useState } from "react";
+'use client';
+import HeroSection from '@/components/HeroSection';
+import ServicesSection from '@/components/ServicesSection';
+import WorkingHours from '@/components/WorkingHours';
+import ContactSection from '@/components/ContactSection';
+import SalonHeader from '@/components/SalonHeader';
+import { useParams } from 'next/navigation';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 interface SocialUrl {
   url: string;
   urlName: string;
+}
+
+interface Service {
+  _id: string;
+  companyId: string;
+  serviceName: string;
+  servicePrice: number;
+  serviceInfo: string;
+  serviceTime: number;
+  __v?: number;
 }
 
 type Salon = {
@@ -25,6 +35,7 @@ type Salon = {
   category: string;
   schedule: object;
   socialUrls: SocialUrl[];
+  services: Service[];
 };
 
 export default function SalonPage() {
@@ -54,12 +65,21 @@ export default function SalonPage() {
 
   console.log(salon);
 
+  const transformedServices = salon.services.map((s) => ({
+    title: s.serviceName,
+    description: '',
+    details: s.serviceInfo,
+    price: s.servicePrice.toLocaleString() + '₮',
+    duration: s.serviceTime + ' мин',
+  }));
+
   return (
     <div className="font-sans">
       <SalonHeader name={salon.companyName} />
       <HeroSection name={salon.companyName} about={salon.about} />
       <WorkingHours />
-      <ServicesSection />
+      {/* services массивыг дамжуулж байна */}
+      <ServicesSection services={transformedServices} />
       <ContactSection
         phone={salon.phoneNumber}
         address={salon.address}
