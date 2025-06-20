@@ -20,7 +20,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 
 const formSchema = z.object({
@@ -33,7 +33,7 @@ const formSchema = z.object({
 const SalonLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const { push } = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,17 +46,15 @@ const SalonLogin = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setIsLoading(true);
-      await axios
-        .post(
-          `${process.env.NEXT_PUBLIC_BACKEND_URI}/auth/loginCompany`,
-          values,
-          {
-            withCredentials: true,
-          }
-        )
-        .then(() => {
-          router.push("/admin");
-        });
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URI}/auth/loginCompany`,
+        values,
+        {
+          withCredentials: true,
+        }
+      );
+
+      push("/admin");
 
       // localStorage.setItem('token', response.data.token);
     } catch (error) {
@@ -66,6 +64,7 @@ const SalonLogin = () => {
       });
     } finally {
       setIsLoading(false);
+      push("/admin");
     }
   };
 
