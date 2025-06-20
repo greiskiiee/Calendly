@@ -1,3 +1,4 @@
+"use client";
 import SalonLogin from "@/components/SalonLogin";
 
 export default function Login() {

@@ -41,14 +41,13 @@ export const loginCompany = async (req: Request, res: Response) => {
         }
       );
 
-      // console.log('1 working token...', token);
       res.cookie("token", token, {
         httpOnly: true,
-        secure: false,
+        secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
         path: "/",
+        maxAge: 24 * 60 * 60 * 1000, // 1 day
       });
-      // console.log('2 working token...', token);
       return res.status(200).send({ success: true, token });
     } else {
       return res
@@ -56,14 +55,14 @@ export const loginCompany = async (req: Request, res: Response) => {
         .send({ success: false, message: "company not found" });
     }
   } catch (error) {
-    // console.error(error, 'error');
-    // return res
-    //   .status(400)
-    //   .send({
-    //     success: false,
-    //     message: error,
-    //   })
-    //   .end();
+    console.error(error, "error");
+    return res
+      .status(400)
+      .send({
+        success: false,
+        message: error,
+      })
+      .end();
   }
 };
 

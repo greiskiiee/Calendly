@@ -40,6 +40,7 @@ export const AdminHeader = () => {
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URI}/service`, {
         companyId: '',
+
         serviceName: newService.name,
         servicePrice: newService.price,
         serviceInfo: newService.description,
