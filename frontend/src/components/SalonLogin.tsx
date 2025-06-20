@@ -20,7 +20,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import axios from "axios";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 
 const formSchema = z.object({
@@ -33,7 +33,7 @@ const formSchema = z.object({
 const SalonLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { push } = useRouter();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -54,7 +54,7 @@ const SalonLogin = () => {
         }
       );
 
-      push("/admin");
+      router.push("/admin");
 
       // localStorage.setItem('token', response.data.token);
     } catch (error) {
@@ -64,7 +64,6 @@ const SalonLogin = () => {
       });
     } finally {
       setIsLoading(false);
-      push("/admin");
     }
   };
 
