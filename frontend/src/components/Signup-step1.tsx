@@ -91,6 +91,7 @@ export const Step1 = ({ onContinue }: Props) => {
     const imageURL = await uploadImage(file);
     console.log('imageURL:', imageURL);
     const newCompany = {
+      id: '',
       companyName: values.companyName,
       logo: imageURL,
       email: values.email,

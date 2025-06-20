@@ -1,4 +1,5 @@
 // app/layout.tsx (Server Component)
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { CompanyProvider } from "@/components/contexts/CompanyProvider";
@@ -24,6 +25,7 @@ export default async function RootLayout({
     password: "",
     about: "",
     category: "",
+
     schedule: {},
     socialUrls: [],
   };
