@@ -5,10 +5,10 @@ import "./globals.css";
 import { CompanyProvider } from "@/components/contexts/CompanyProvider";
 import { Company } from "@/components/contexts/CompanyContext";
 
-const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
+const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
 });
 
 export default async function RootLayout({
@@ -16,23 +16,19 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const cookieStore = cookies();
-  const token = (await cookieStore).get('token')?.value;
-
   let initialCompany: Company = {
-    companyName: '',
-    logo: '',
-    email: '',
-    phoneNumber: '',
-    address: '',
-    password: '',
-    about: '',
-    category: '',
+    companyName: "",
+    logo: "",
+    email: "",
+    phoneNumber: "",
+    address: "",
+    password: "",
+    about: "",
+    category: "",
 
     schedule: {},
     socialUrls: [],
   };
-
 
   return (
     <html lang="en">
