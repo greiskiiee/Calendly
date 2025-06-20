@@ -1,7 +1,7 @@
-"use client";
-import { Calendar } from "lucide-react";
-import React, { useContext, useState } from "react";
-import { Button } from "./ui/button";
+'use client';
+import { Calendar } from 'lucide-react';
+import React, { useContext, useState } from 'react';
+import { Button } from './ui/button';
 import {
   Dialog,
   DialogContent,
@@ -9,20 +9,20 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Label } from "./ui/label";
-import { Textarea } from "./ui/textarea";
-import { Input } from "./ui/input";
-import { toast } from "@/hooks/use-toast";
-import axios from "axios";
-import { CompanyContext } from "./contexts/CompanyContext";
+} from '@/components/ui/dialog';
+import { Label } from './ui/label';
+import { Textarea } from './ui/textarea';
+import { Input } from './ui/input';
+import { toast } from '@/hooks/use-toast';
+import axios from 'axios';
+import { CompanyContext } from './contexts/CompanyContext';
 
 export const AdminHeader = () => {
   const [newService, setNewService] = useState({
-    name: "",
+    name: '',
     price: 0,
     duration: 0,
-    description: "",
+    description: '',
   });
 
   const { company } = useContext(CompanyContext);
@@ -30,16 +30,16 @@ export const AdminHeader = () => {
   const handleAddService = async () => {
     if (!newService.name || !newService.price) {
       toast({
-        title: "Алдаа",
-        description: "Үйлчилгээний нэр болон үнийг заавал бөглөнө үү",
-        variant: "destructive",
+        title: 'Алдаа',
+        description: 'Үйлчилгээний нэр болон үнийг заавал бөглөнө үү',
+        variant: 'destructive',
       });
       return;
     }
 
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URI}/service`, {
-        companyId: company._doc?._id,
+        companyId: '',
         serviceName: newService.name,
         servicePrice: newService.price,
         serviceInfo: newService.description,
@@ -47,11 +47,11 @@ export const AdminHeader = () => {
       });
 
       toast({
-        title: "Үйлчилгээ нэмэгдлээ",
+        title: 'Үйлчилгээ нэмэгдлээ',
         description: `${newService.name} үйлчилгээ амжилттай нэмэгдлээ`,
       });
 
-      setNewService({ name: "", price: 0, duration: 0, description: "" });
+      setNewService({ name: '', price: 0, duration: 0, description: '' });
       // setIsAddServiceOpen(false);
     } catch (error) {
       console.log(error);
