@@ -46,7 +46,7 @@ const SalonLogin = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setIsLoading(true);
-      const response = await axios.post(
+      await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URI}/auth/loginCompany`,
         values,
         {
@@ -54,11 +54,9 @@ const SalonLogin = () => {
         }
       );
 
+      router.push("/admin");
+
       // localStorage.setItem('token', response.data.token);
-      console.log("boljiin goy bn", response);
-      if (response?.data) {
-        router.push("/admin");
-      }
     } catch (error) {
       console.error("Login error:", error);
       form.setError("root", {
