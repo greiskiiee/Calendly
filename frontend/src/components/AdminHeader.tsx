@@ -1,7 +1,7 @@
-'use client';
-import { Calendar } from 'lucide-react';
-import React, { useContext, useState } from 'react';
-import { Button } from './ui/button';
+"use client";
+import { Calendar } from "lucide-react";
+import React, { useContext, useState } from "react";
+import { Button } from "./ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,20 +9,20 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Label } from './ui/label';
-import { Textarea } from './ui/textarea';
-import { Input } from './ui/input';
-import { toast } from '@/hooks/use-toast';
-import axios from 'axios';
-import { CompanyContext } from './contexts/CompanyContext';
+} from "@/components/ui/dialog";
+import { Label } from "./ui/label";
+import { Textarea } from "./ui/textarea";
+import { Input } from "./ui/input";
+import { toast } from "@/hooks/use-toast";
+import axios from "axios";
+import { CompanyContext } from "./contexts/CompanyContext";
 
 export const AdminHeader = () => {
   const [newService, setNewService] = useState({
-    name: '',
+    name: "",
     price: 0,
     duration: 0,
-    description: '',
+    description: "",
   });
 
   const { company } = useContext(CompanyContext);
@@ -30,16 +30,16 @@ export const AdminHeader = () => {
   const handleAddService = async () => {
     if (!newService.name || !newService.price) {
       toast({
-        title: 'Алдаа',
-        description: 'Үйлчилгээний нэр болон үнийг заавал бөглөнө үү',
-        variant: 'destructive',
+        title: "Алдаа",
+        description: "Үйлчилгээний нэр болон үнийг заавал бөглөнө үү",
+        variant: "destructive",
       });
       return;
     }
 
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URI}/service`, {
-        companyId: '',
+        companyId: "",
 
         serviceName: newService.name,
         servicePrice: newService.price,
@@ -48,11 +48,11 @@ export const AdminHeader = () => {
       });
 
       toast({
-        title: 'Үйлчилгээ нэмэгдлээ',
+        title: "Үйлчилгээ нэмэгдлээ",
         description: `${newService.name} үйлчилгээ амжилттай нэмэгдлээ`,
       });
 
-      setNewService({ name: '', price: 0, duration: 0, description: '' });
+      setNewService({ name: "", price: 0, duration: 0, description: "" });
       // setIsAddServiceOpen(false);
     } catch (error) {
       console.log(error);
@@ -66,13 +66,13 @@ export const AdminHeader = () => {
             <div className="w-8 h-8 bg-rose-500 rounded-full flex items-center justify-center">
               <Calendar className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-gray-800">
+            <span className="text-sm md:text-xl font-bold text-gray-800">
               Манай байгууллага
             </span>
           </div>
 
           <Dialog>
-            <DialogTrigger className="bg-rose-500 hover:bg-rose-600 text-white py-2 px-3 rounded-md">
+            <DialogTrigger className="text-[10px] md:text-[14px] bg-rose-500 hover:bg-rose-600 text-white py-2 px-3 rounded-md">
               + Үйлчилгээ нэмэх
             </DialogTrigger>
             <DialogContent>

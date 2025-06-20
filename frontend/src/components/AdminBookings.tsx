@@ -8,19 +8,10 @@ import {
   Filter,
   Search,
   CheckCircle,
-  XCircle,
-  ArrowLeft,
-  Eye,
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -40,16 +31,7 @@ import {
 } from "@/components/ui/table";
 import { SelectedBookingCard } from "./SelectedBookingCard";
 import { AdminHeader } from "./AdminHeader";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-  DialogClose,
-} from "@/components/ui/dialog";
+import axios from "axios";
 
 const mockBookings = [
   {
@@ -150,6 +132,13 @@ const AdminBookings = () => {
     .filter((b) => b.status === "completed")
     .reduce((sum, b) => sum + parseInt(b.price.replace(/[₮,]/g, "")), 0);
 
+  const fetchCompany = async () => {
+    try {
+      await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URI}/`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 ">
       <AdminHeader />

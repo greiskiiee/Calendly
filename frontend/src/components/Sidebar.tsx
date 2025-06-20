@@ -35,13 +35,18 @@ const items = [
   { title: "Профайл засах", url: "#", icon: Settings },
 ];
 
-export function AppSidebar() {
+export function AppSidebar({ closeSidebar }: { closeSidebar?: () => void }) {
   const router = useRouter();
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
 
   const handleLogout = () => {
     Cookies.remove("token");
     router.push("/");
+  };
+
+  const handleNavigate = (url: string) => {
+    router.push(url);
+    if (closeSidebar) closeSidebar(); // Close on mobile
   };
 
   return (
@@ -51,12 +56,11 @@ export function AppSidebar() {
           <SidebarGroupLabel>Цэс</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {/* Regular Menu Items */}
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <button
-                      onClick={() => router.push(item.url)}
+                      onClick={() => handleNavigate(item.url)}
                       className="flex items-center gap-2 w-full text-left"
                     >
                       <item.icon />
@@ -65,7 +69,6 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
-
               <SidebarMenuItem>
                 <AlertDialog
                   open={logoutDialogOpen}
@@ -82,7 +85,6 @@ export function AppSidebar() {
                       </button>
                     </SidebarMenuButton>
                   </AlertDialogTrigger>
-
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle>

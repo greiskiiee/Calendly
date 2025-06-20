@@ -1,5 +1,5 @@
-'use client';
-import { createContext } from 'react';
+"use client";
+import { createContext } from "react";
 
 interface SocialUrl {
   url: string;
@@ -26,14 +26,14 @@ interface CompanyContextType {
 
 export const CompanyContext = createContext<CompanyContextType>({
   company: {
-    companyName: '',
-    logo: '',
-    email: '',
-    phoneNumber: '',
-    address: '',
-    password: '',
-    about: '',
-    category: '',
+    companyName: "",
+    logo: "",
+    email: "",
+    phoneNumber: "",
+    address: "",
+    password: "",
+    about: "",
+    category: "",
 
     schedule: {},
     socialUrls: [],
