@@ -154,3 +154,49 @@ export const getCompanyById = async (req: Request, res: Response) => {
       .end();
   }
 };
+
+export const getCompanyByEmail = async (req: Request, res: Response) => {
+  const { email } = req.params;
+  try {
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: "Email is required",
+      });
+    }
+
+    const company = await companyModel.aggregate([
+      {
+        $match: {
+          email: email.toLowerCase(),
+        },
+      },
+      {
+        $lookup: {
+          from: "services", // collection name
+          localField: "_id",
+          foreignField: "companyId",
+          as: "services",
+        },
+      },
+    ]);
+
+    if (company.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Company not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      company: company[0],
+    });
+  } catch (error) {
+    console.error("Error fetching company by email:", error);
+    return res.status(500).json({
+      success: false,
+      message: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
+};

@@ -5,6 +5,7 @@ import {
   deleteCompanyById,
   getCompanyById,
   getCompanies,
+  getCompanyByEmail,
 } from "../controllers/company";
 import { verifyToken } from "../middleware/auth";
 
@@ -16,4 +17,5 @@ companyRouter
   .delete("/:id", deleteCompanyById as any)
   .get("/allCompanies", getCompanies as any)
   .get("/:companyId", getCompanyById as any)
+  .get("/:email", getCompanyByEmail as any)
   .get("/profile/:companyId", verifyToken as any, getCompanyById as any);
