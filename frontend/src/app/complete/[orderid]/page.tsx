@@ -1,9 +1,9 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import axios from "axios";
-import { Star } from "lucide-react";
-import { useParams, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+'use client';
+import { Button } from '@/components/ui/button';
+import axios from 'axios';
+import { Star } from 'lucide-react';
+import { useParams, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 type OrderType = {
   clientName: string;
@@ -22,7 +22,7 @@ export default function Home() {
       const { data } = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_URI}/order/${param?.orderid}`
       );
-      console.log(data, "test data");
+      console.log(data, 'test data');
       setOrderData(data.order);
     } catch (error) {
       console.log(error);
@@ -31,7 +31,7 @@ export default function Home() {
   useEffect(() => {
     getData();
   }, []);
-  console.log(orderData, "ORDER");
+  console.log(orderData, 'ORDER');
 
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-red-100 flex-col">
