@@ -1,40 +1,40 @@
-import React from "react";
-import { Button } from "@/components/ui/button";
+'use client';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-  DialogClose,
-} from "@/components/ui/dialog";
-import { CheckCircle, Eye, XCircle } from "lucide-react";
-import { Badge } from "./ui/badge";
+} from '@/components/ui/dialog';
+import { CheckCircle, Eye, XCircle } from 'lucide-react';
+import { Badge } from './ui/badge';
+import { DialogTrigger } from '@radix-ui/react-dialog';
 
 const statusConfig = {
-  pending: { label: "Хүлээгдэж буй", color: "bg-yellow-100 text-yellow-800" },
-  confirmed: { label: "Баталгаажсан", color: "bg-blue-100 text-blue-800" },
-  completed: { label: "Дууссан", color: "bg-green-100 text-green-800" },
-  cancelled: { label: "Цуцлагдсан", color: "bg-red-100 text-red-800" },
+  pending: { label: 'Хүлээгдэж буй', color: 'bg-yellow-100 text-yellow-800' },
+  confirmed: { label: 'Баталгаажсан', color: 'bg-blue-100 text-blue-800' },
+  completed: { label: 'Дууссан', color: 'bg-green-100 text-green-800' },
+  cancelled: { label: 'Цуцлагдсан', color: 'bg-red-100 text-red-800' },
 };
 
 type SelectedBooking = {
-  id: number;
-  customerName: string;
-  phone: string;
-  service: string;
-  price: string;
-  date: string;
-  time: string;
+  _id: string;
+  clientName: string;
+  clientPhone: number;
+  selectedDate: string;
+  selectedTime: string;
   status: string;
-  notes: string;
+  serviceOrder?: {
+    serviceName: string;
+    servicePrice: number;
+    serviceInfo?: string;
+  };
 };
 
 type SelectedBookingCardProps = {
   selectedBooking: SelectedBooking;
-  onUpdateStatus: (bookingId: number, newStatus: string) => void;
+  onUpdateStatus: (bookingId: string, newStatus: string) => void;
 };
 
 export const SelectedBookingCard = ({
@@ -51,7 +51,7 @@ export const SelectedBookingCard = ({
           <DialogHeader>
             <DialogTitle>Захиалгын дэлгэрэнгүй</DialogTitle>
             <DialogDescription>
-              Захиалга #{selectedBooking.id}
+              Захиалга #{selectedBooking._id.slice(-4)}
             </DialogDescription>
           </DialogHeader>
 
@@ -62,10 +62,10 @@ export const SelectedBookingCard = ({
                   Үйлчлүүлэгчийн мэдээлэл
                 </h3>
                 <p>
-                  <strong>Нэр:</strong> {selectedBooking.customerName}
+                  <strong>Нэр:</strong> {selectedBooking.clientName}
                 </p>
                 <p>
-                  <strong>Утас:</strong> {selectedBooking.phone}
+                  <strong>Утас:</strong> {selectedBooking.clientPhone}
                 </p>
               </div>
               <div>
@@ -73,10 +73,15 @@ export const SelectedBookingCard = ({
                   Үйлчилгээний мэдээлэл
                 </h3>
                 <p>
-                  <strong>Үйлчилгээ:</strong> {selectedBooking.service}
+                  <strong>Үйлчилгээ:</strong>{' '}
+                  {selectedBooking.serviceOrder?.serviceName ||
+                    'Үйлчилгээ олдсонгүй'}
                 </p>
                 <p>
-                  <strong>Үнэ:</strong> {selectedBooking.price}
+                  <strong>Үнэ:</strong>{' '}
+                  {selectedBooking.serviceOrder?.servicePrice.toLocaleString() ||
+                    '0'}
+                  ₮
                 </p>
               </div>
             </div>
@@ -85,10 +90,11 @@ export const SelectedBookingCard = ({
               <div>
                 <h3 className="font-semibold text-gray-700 mb-2">Огноо цаг</h3>
                 <p>
-                  <strong>Огноо:</strong> {selectedBooking.date}
+                  <strong>Огноо:</strong>{' '}
+                  {new Date(selectedBooking.selectedDate).toLocaleDateString()}
                 </p>
                 <p>
-                  <strong>Цаг:</strong> {selectedBooking.time}
+                  <strong>Цаг:</strong> {selectedBooking.selectedTime}
                 </p>
               </div>
               <div>
@@ -96,60 +102,45 @@ export const SelectedBookingCard = ({
                 <Badge
                   className={
                     statusConfig[
-                      selectedBooking.status as keyof typeof statusConfig
-                    ].color
+                      selectedBooking.status.toLowerCase() as keyof typeof statusConfig
+                    ]?.color || 'bg-gray-100 text-gray-800'
                   }
                 >
-                  {
-                    statusConfig[
-                      selectedBooking.status as keyof typeof statusConfig
-                    ].label
-                  }
+                  {statusConfig[
+                    selectedBooking.status.toLowerCase() as keyof typeof statusConfig
+                  ]?.label || selectedBooking.status}
                 </Badge>
               </div>
             </div>
 
-            {selectedBooking.notes && (
+            {selectedBooking.serviceOrder?.serviceInfo && (
               <div>
                 <h3 className="font-semibold text-gray-700 mb-2">
                   Нэмэлт тэмдэглэл
                 </h3>
                 <p className="bg-gray-50 p-3 rounded-lg">
-                  {selectedBooking.notes}
+                  {selectedBooking.serviceOrder.serviceInfo}
                 </p>
               </div>
             )}
 
             <div className="flex gap-2 pt-4">
               <Button
-                onClick={() => onUpdateStatus(selectedBooking.id, "confirmed")}
+                onClick={() => onUpdateStatus(selectedBooking._id, 'Approved')}
                 className="bg-blue-500 hover:bg-blue-600"
-                disabled={
-                  selectedBooking.status === "completed" ||
-                  selectedBooking.status === "cancelled" ||
-                  selectedBooking.status === "confirmed"
-                }
               >
                 <CheckCircle className="w-4 h-4 mr-2" />
                 Баталгаажуулах
               </Button>
               <Button
-                onClick={() => onUpdateStatus(selectedBooking.id, "completed")}
+                onClick={() => onUpdateStatus(selectedBooking._id, 'Completed')}
                 className="bg-green-500 hover:bg-green-600"
-                disabled={
-                  selectedBooking.status === "completed" ||
-                  selectedBooking.status === "cancelled"
-                }
               >
                 Дуусгах
               </Button>
               <Button
-                onClick={() => onUpdateStatus(selectedBooking.id, "cancelled")}
+                onClick={() => onUpdateStatus(selectedBooking._id, 'Canceled')}
                 variant="destructive"
-                disabled={
-                  selectedBooking.status === "completed" ||
-                  selectedBooking.status === "cancelled"
-                }
               >
                 <XCircle className="w-4 h-4 mr-2" />
                 Цуцлах
